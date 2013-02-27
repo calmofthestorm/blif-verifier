@@ -4,6 +4,7 @@
 #include <iterator>
 #include <ostream>
 #include <sstream>
+#include <stack>
 #include <vector>
 
 #include "blif.h"
@@ -29,15 +30,33 @@ namespace {
   };
 }
 
-blifverifier::BLIF::BLIF() {
-  /*
-  istringstream test("Hello world #how are you?");
-  auto res = readLineAsTokens(test);
-  std::copy(res.begin(), res.end(), std::ostream_iterator<string>(std::cout));
-  */
+void blifverifier::TruthTableEntry::generateCode(ostream& out,
+                                                 const vector<string>& input_names) const {
+  out << "(";
+  for (decltype(inputs)::size_type i = 0; i < inputs.size(); ++i) {
+    if (inputs[i] != TOKENS::NC) {
+      if (inputs[i] == TOKENS::ZERO) {
+        out << "!";
+      }
+      out << input_names[i] << " && ";
+    }
+  }
+  out << " true)";
 }
 
-blifverifier::BLIF::BLIF(istream& input) {
+void blifverifier::TruthTable::generateCode(ostream& out) const {
+  out << "(";
+  for (const auto& entry : entries) {
+    if (entry.output == TOKENS::ONE) {
+      entry.generateCode(out, inputs);
+      out << " || ";
+    }
+  }
+  out << " false)";
+}
+
+blifverifier::BLIF::BLIF(istream& input)
+  : mNextLiteralIndex(0) {
   assert(input); // TODO all this should be exceptions
 
   bool read_model = false;
@@ -66,29 +85,37 @@ blifverifier::BLIF::BLIF(istream& input) {
     else if (section == TOKENS::INPUTS) {
       assert(!read_inputs);
       read_inputs = true;
-      std::copy(tok, tokens.end(),
-                std::inserter(mPrimaryInputs, mPrimaryInputs.end()));
+      int index = 0;
+      while (tok != tokens.end()) {
+        // Replace all user names with nicknames to deal with conflicts cleanly.
+        mPrimaryInputs.insert(registerLiteral(*tok++, "inputs", index++));
+      }
     }
 
     // Allow at most one outputs section.
     else if (section == TOKENS::OUTPUTS) {
       assert(!read_outputs);
       read_outputs = true;
-      std::copy(tok, tokens.end(),
-                std::inserter(mPrimaryOutputs, mPrimaryOutputs.end()));
+      int index = 0;
+      while (tok != tokens.end()) {
+        // Replace all user names with nicknames to deal with conflicts cleanly.
+        mPrimaryOutputs.insert(registerLiteral(*tok++, "outputs", index++));
+      }
     }
 
     // All names sections must be unique, and all outputs need one.
     else if (section == TOKENS::NAMES) {
       // Verify we are ready for these and the uniqueness of the name.
       assert(read_inputs && read_outputs && read_model);
-      string name = *(tokens.end() - 1);
+      string name = registerLiteral(*(tokens.end() - 1));
       assert(mTruthTables.find(name) == mTruthTables.end());
 
       // Parse the truth table.
       // Save the inputs.
       TruthTable tt;
-      std::copy(tok, tokens.end() - 1, std::back_inserter(tt.inputs));
+      while (tok != tokens.end() - 1) {
+        tt.inputs.push_back(registerLiteral(*tok++));
+      }
 
       // Keep reading logic lines until we hit something else, and push it back.
       do {
@@ -105,6 +132,8 @@ blifverifier::BLIF::BLIF(istream& input) {
         }
       } while (read_next_line);
       mTruthTables[name] = tt;
+
+      // TODO: would be nice to verify the consistency of the input cover.
 
       // Last remaining valid token.
       } else {
@@ -131,6 +160,27 @@ blifverifier::BLIF::BLIF(istream& input) {
   for (const auto& po : mPrimaryOutputs) {
     assert(mTruthTables.find(po) != mTruthTables.end());
   }
+}
+
+string blifverifier::BLIF::registerLiteral(const string& lit,
+                                           const string& arrayName,
+                                           int arrayIndex) {
+  // TODO: throw
+  std::ostringstream sstr;
+  sstr << arrayName << "[" << arrayIndex << "]";
+  assert(mLiterals.find(sstr.str()) == mLiterals.end());
+  mLiterals[lit] = sstr.str();
+  return mLiterals[lit] = sstr.str();
+}
+
+string blifverifier::BLIF::registerLiteral(const string& lit) {
+  // TODO: throw
+  if (mLiterals.find(lit) == mLiterals.end()) {
+    std::ostringstream sstr;
+    sstr << "node" << mNextLiteralIndex++;
+    mLiterals[lit] = sstr.str();
+  }
+  return mLiterals[lit];
 }
 
 bool blifverifier::BLIF::isValidTTEntry(const string& line, int num_entries) {
@@ -173,4 +223,43 @@ vector<string> blifverifier::BLIF::readLineAsTokens(istream& input) {
     result.erase(comment, result.end());
   }
   return result;
+}
+
+void blifverifier::BLIF::writeEvaluator(std::ostream& output, const string& fxn_name) const {
+  output << "void " << fxn_name << "(size_t inputs[numInputs],"
+         << " size_t outputs[numOutputs]) {\n";
+
+  // We need to write out the assignments in topologically sorted order to
+  // ensure that all dependencies are met. BLIF does not require the circuit
+  // be so sorted.
+  std::unordered_set<std::string> ordered(mPrimaryInputs.begin(), mPrimaryInputs.end());
+  for (const auto& gate : mTruthTables) {
+    if (ordered.find(gate.first) == ordered.end()) {
+      std::stack<string> todo;
+      todo.push(gate.first);
+      while (!todo.empty()) {
+        string top_name = todo.top();
+        todo.pop();
+        bool ready = true;
+        const TruthTable& top = mTruthTables.find(top_name)->second;
+        for (const auto& dependency : top.inputs) {
+          if (ordered.find(dependency) == ordered.end()) {
+            if (ready == true) {
+              todo.push(top_name);
+              ready = false;
+            }
+            todo.push(dependency);
+          }
+        }
+        if (ready) {
+          ordered.insert(top_name);
+          output << "size_t " << top_name << " = ";
+          top.generateCode(output);
+          output << "; // strategy: naive\n";
+        }
+      }
+    }
+  }
+
+  output << "}\n";
 }
