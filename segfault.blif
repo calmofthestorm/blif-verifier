@@ -1,0 +1,43 @@
+.model randchain_reorg
+
+.inputs i[0] i[1] i[2] i[3] i[4] i[5] i[6] i[7] i[8] i[9]
+
+.outputs z
+
+.names m[7] m[0] z
+1- 1
+-1 1
+
+.names i[0] i[2] m[0]
+1- 1
+-1 1
+
+.names i[3] i[6] m[1]
+1- 1
+-1 1
+
+.names i[9] i[4] m[2]
+1- 1
+-1 1
+
+.names i[1] m[2] m[3]
+1- 1
+-1 1
+
+.names i[7] i[5] m[4]
+1- 1
+-1 1
+
+.names m[4] m[3] m[5]
+1- 1
+-1 1
+
+.names i[8] m[1] m[6]
+1- 1
+-1 1
+
+.names m[5] m[6] m[7]
+1- 1
+-1 1
+
+.end
