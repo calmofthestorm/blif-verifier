@@ -31,6 +31,7 @@ class BLIF {
 
     // Reads a BLIF from a stream.
     BLIF(std::istream& input);
+    BLIF(std::istream&& input);
 
     // Writes out a C function that implements the BLIF's logic to the
     // provided ostream.

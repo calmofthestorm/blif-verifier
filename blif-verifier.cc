@@ -16,17 +16,9 @@ int main(int argc, char* argv[]) {
 
   // Load all data.
   int i = 0;
-  auto circuit0 = loadCircuit(argv[++i]);
-  auto circuit1 = loadCircuit(argv[++i]);
+  blifverifier::BLIF circuit0(std::ifstream(argv[++i]));
+  blifverifier::BLIF circuit1(std::ifstream(argv[++i]));
   std::ofstream outfile(argv[++i]);
 
   // Write out the generated code.
-}
-
-blifverifier::BLIF loadCircuit(const char* const filename) {
-  std::ifstream is(filename);
-  blifverifier::BLIF circuit(is);
-  std::cout << sizeof(decltype(circuit));
-  is.close();
-  return circuit;
 }

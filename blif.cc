@@ -55,6 +55,9 @@ void blifverifier::TruthTable::generateCode(ostream& out) const {
   out << " false)";
 }
 
+blifverifier::BLIF::BLIF(istream&& input)
+  : BLIF(input) {}
+
 blifverifier::BLIF::BLIF(istream& input)
   : mNextLiteralIndex(0) {
   assert(input); // TODO all this should be exceptions
