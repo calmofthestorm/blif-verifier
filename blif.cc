@@ -200,7 +200,7 @@ string BLIF::registerLiteral(const string& lit) {
 }
 
 bool BLIF::isValidTTEntry(const string& line, int num_entries) {
-  if (num_entries != line.size()) {
+  if (num_entries != static_cast<int>(line.size())) {
     return false;
   }
 

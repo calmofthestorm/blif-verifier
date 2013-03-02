@@ -41,7 +41,7 @@ void writeArray(const std::vector<string>& data, ostream& out) {
 int main(int argc, char* argv[]) {
   if (argc != 4) {
     cout << "Usage: " << argv[0]
-         << "  circuit1.blif circuit2.blif output.c" << endl;
+         << " circuit1.blif circuit2.blif output.c" << endl;
     return 1;
   }
 

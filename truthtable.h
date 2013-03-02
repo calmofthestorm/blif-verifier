@@ -17,7 +17,7 @@ namespace blifverifier {
     const char ZERO = '0';
     const char ONE = '1';
     const char NC = '-';
-  };
+  }
 
 class TruthTableEntry {
   public:
