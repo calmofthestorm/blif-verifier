@@ -8,6 +8,7 @@
 #include <vector>
 
 #include "blif.h"
+#include "truthtable.h"
 
 #include <iostream>
 
@@ -22,78 +23,7 @@ using blifverifier::BLIF;
 using blifverifier::TruthTable;
 using blifverifier::TruthTableEntry;
 
-namespace {
-  namespace TOKENS {
-    const std::string MODEL = ".model";
-    const std::string INPUTS = ".inputs";
-    const std::string OUTPUTS = ".outputs";
-    const std::string NAMES = ".names";
-    const std::string END = ".end";
-    const char ZERO = '0';
-    const char ONE = '1';
-    const char NC = '-';
-  };
-}
 
-TruthTable::TruthTable()
-  : mKind(TTKind::NORMAL) { }
-
-TruthTable::TruthTable(TruthTable::TTKind kind)
-  : mKind(kind) { }
-
-TruthTableEntry::TruthTableEntry(const std::string& inputs, char output)
-  : mInputs(inputs), mOutput(output) { }
-
-char TruthTableEntry::getOutput() const {
-  return mOutput;
-}
-
-// TODO: if BLIF truthtable contains a contradiction it will be resolved silently
-// as true.
-void TruthTableEntry::generateCode(ostream& out,
-                                                 const vector<string>& input_names) const {
-  out << "(";
-  for (decltype(mInputs)::size_type i = 0; i < mInputs.size(); ++i) {
-    if (mInputs[i] != TOKENS::NC) {
-      if (mInputs[i] == TOKENS::ZERO) {
-        out << "!";
-      }
-      out << input_names[i] << " && ";
-    }
-  }
-  out << " -1)";
-}
-
-void TruthTable::generateCode(const string& name, ostream& out) const {
-  if (mKind != TruthTable::TTKind::INPUT) {
-    if (mKind == TruthTable::TTKind::NORMAL) {
-      out << "size_t ";
-    }
-    out << name << " = ";
-    out << "(";
-    for (const auto& entry : mEntries) {
-      if (entry.getOutput() == TOKENS::ONE) {
-        entry.generateCode(out, mInputs);
-        out << " || ";
-      }
-    }
-    out << " 0); // strategy: naive\n";
-  }
-}
-
-void TruthTable::addInput(const std::string& input) {
-  assert(mKind != TTKind::INPUT);
-  mInputs.push_back(input);
-}
-
-void TruthTable::addEntry(const TruthTableEntry& entry) {
-  assert(mKind != TTKind::INPUT);
-  mEntries.push_back(entry);
-}
-
-const vector<string>& TruthTable::getInputs() const {
-  return mInputs;
-}
 
 BLIF::BLIF(istream&& input)
   : BLIF(input) {}
