@@ -7,12 +7,20 @@
 
 namespace blifverifier {
 
-struct TruthTableEntry {
-  std::string inputs;
-  char output;
+class TruthTableEntry {
+  public:
+    TruthTableEntry();
+    TruthTableEntry(const std::string& inputs, char output);
 
-  // Represents the entry as a C logic expression.
-  void generateCode(std::ostream& out, const std::vector<std::string>& input_names) const;
+    char getOutput() const;
+
+    // Represents the entry as a C logic expression.
+    void generateCode(std::ostream& out,
+                      const std::vector<std::string>& input_names) const;
+
+  private:
+    std::string mInputs;
+    char mOutput;
 };
 
 class TruthTable {

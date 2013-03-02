@@ -41,14 +41,21 @@ TruthTable::TruthTable()
 TruthTable::TruthTable(TruthTable::TTKind kind)
   : mKind(kind) { }
 
+TruthTableEntry::TruthTableEntry(const std::string& inputs, char output)
+  : mInputs(inputs), mOutput(output) { }
+
+char TruthTableEntry::getOutput() const {
+  return mOutput;
+}
+
 // TODO: if BLIF truthtable contains a contradiction it will be resolved silently
 // as true.
 void TruthTableEntry::generateCode(ostream& out,
                                                  const vector<string>& input_names) const {
   out << "(";
-  for (decltype(inputs)::size_type i = 0; i < inputs.size(); ++i) {
-    if (inputs[i] != TOKENS::NC) {
-      if (inputs[i] == TOKENS::ZERO) {
+  for (decltype(mInputs)::size_type i = 0; i < mInputs.size(); ++i) {
+    if (mInputs[i] != TOKENS::NC) {
+      if (mInputs[i] == TOKENS::ZERO) {
         out << "!";
       }
       out << input_names[i] << " && ";
@@ -65,7 +72,7 @@ void TruthTable::generateCode(const string& name, ostream& out) const {
     out << name << " = ";
     out << "(";
     for (const auto& entry : mEntries) {
-      if (entry.output == TOKENS::ONE) {
+      if (entry.getOutput() == TOKENS::ONE) {
         entry.generateCode(out, mInputs);
         out << " || ";
       }
@@ -169,7 +176,7 @@ BLIF::BLIF(istream& input)
             tokens[0].size() == tt.getInputs().size() && tokens[1].size() == 1 &&
             (tokens[1][0] == TOKENS::ZERO || tokens[1][0] == TOKENS::ONE)) {
           // Is a valid logic line.
-          TruthTableEntry tte{tokens[0], tokens[1][0]};
+          TruthTableEntry tte(tokens[0], tokens[1][0]);
           tt.addEntry(tte);
         } else {
           // Either another section or an error.
