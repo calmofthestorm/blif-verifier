@@ -16,6 +16,11 @@ using std::istringstream;
 using std::ostream;
 using std::string;
 using std::vector;
+using std::unordered_set;
+
+using blifverifier::BLIF;
+using blifverifier::TruthTable;
+using blifverifier::TruthTableEntry;
 
 namespace {
   namespace TOKENS {
@@ -41,18 +46,24 @@ void blifverifier::TruthTableEntry::generateCode(ostream& out,
       out << input_names[i] << " && ";
     }
   }
-  out << " true)";
+  out << " 1)";
 }
 
-void blifverifier::TruthTable::generateCode(ostream& out) const {
-  out << "(";
-  for (const auto& entry : entries) {
-    if (entry.output == TOKENS::ONE) {
-      entry.generateCode(out, inputs);
-      out << " || ";
+void blifverifier::TruthTable::generateCode(const string& name, ostream& out) const {
+  if (mKind != TruthTable::TTKind::INPUT) {
+    if (mKind == TruthTable::TTKind::NORMAL) {
+      out << "size_t ";
     }
+    out << name << " = ";
+    out << "(";
+    for (const auto& entry : entries) {
+      if (entry.output == TOKENS::ONE) {
+        entry.generateCode(out, inputs);
+        out << " || ";
+      }
+    }
+    out << " 0); // strategy: naive\n";
   }
-  out << " false)";
 }
 
 blifverifier::BLIF::BLIF(istream&& input)
@@ -65,6 +76,8 @@ blifverifier::BLIF::BLIF(istream& input)
   bool read_model = false;
   bool read_inputs = false;
   bool read_outputs = false;
+
+  unordered_set<string> outputs;
 
   auto tokens = readLineAsTokens(input);
   while (input && !tokens.empty() && tokens[0] != TOKENS::END) {
@@ -90,8 +103,11 @@ blifverifier::BLIF::BLIF(istream& input)
       read_inputs = true;
       int index = 0;
       while (tok != tokens.end()) {
-        // Replace all user names with nicknames to deal with conflicts cleanly.
-        mPrimaryInputs.insert(registerLiteral(*tok++, "inputs", index++));
+        mPrimaryInputs.push_back(*tok);
+        TruthTable tt;
+        tt.mKind = TruthTable::TTKind::INPUT;
+        mTruthTables[registerLiteral(*tok, "inputs", index++)] = tt;
+        ++tok;
       }
     }
 
@@ -101,8 +117,9 @@ blifverifier::BLIF::BLIF(istream& input)
       read_outputs = true;
       int index = 0;
       while (tok != tokens.end()) {
-        // Replace all user names with nicknames to deal with conflicts cleanly.
-        mPrimaryOutputs.insert(registerLiteral(*tok++, "outputs", index++));
+        mPrimaryOutputs.push_back(*tok);
+        outputs.insert(registerLiteral(*tok, "outputs", index++));
+        ++tok;
       }
     }
 
@@ -116,6 +133,11 @@ blifverifier::BLIF::BLIF(istream& input)
       // Parse the truth table.
       // Save the inputs.
       TruthTable tt;
+      if (outputs.find(name) != outputs.end()) {
+        tt.mKind = TruthTable::TTKind::OUTPUT;
+      } else {
+        tt.mKind = TruthTable::TTKind::NORMAL;
+      }
       while (tok != tokens.end() - 1) {
         tt.inputs.push_back(registerLiteral(*tok++));
       }
@@ -154,15 +176,47 @@ blifverifier::BLIF::BLIF(istream& input)
   for (const auto& tt : mTruthTables) {
     auto inputs = tt.second;
     for (const auto& input : tt.second.inputs) {
-      assert(mPrimaryInputs.find(input) != mPrimaryInputs.end() ||
-             mTruthTables.find(input) != mTruthTables.end());
+      //TODO exceptions
+      assert(mTruthTables.find(input) != mTruthTables.end());
     }
   }
 
   // Ensure all primary outputs are defined.
   for (const auto& po : mPrimaryOutputs) {
-    assert(mTruthTables.find(po) != mTruthTables.end());
+    assert(mTruthTables.find(registerLiteral(po)) != mTruthTables.end());
   }
+}
+
+bool blifverifier::BLIF::triviallyNotEquivalent(const blifverifier::BLIF& other, ostream& warn) const {
+  if (other.mPrimaryInputs.size() != mPrimaryInputs.size()) {
+    warn << "WARNING: Circuits not equivalent; different number of inputs.\n";
+    return true;
+  }
+  
+  if (other.mPrimaryInputs != mPrimaryInputs) {
+    warn << "WARNING: Circuits not equivalent; input names do not match.\n";
+    return true;
+  }
+
+  if (other.mPrimaryOutputs.size() != mPrimaryOutputs.size()) {
+    warn << "WARNING: Circuits not equivalent; different number of outputs.\n";
+    return true;
+  }
+  
+  if (other.mPrimaryOutputs != mPrimaryOutputs) {
+    warn << "WARNING: Circuits not equivalent; output names do not match.\n";
+    return true;
+  }
+
+  return false;
+}
+
+const std::vector<std::string>& BLIF::getPrimaryInputs() const {
+  return mPrimaryInputs;
+}
+
+const std::vector<std::string>& BLIF::getPrimaryOutputs() const {
+  return mPrimaryOutputs;
 }
 
 string blifverifier::BLIF::registerLiteral(const string& lit,
@@ -173,7 +227,8 @@ string blifverifier::BLIF::registerLiteral(const string& lit,
   sstr << arrayName << "[" << arrayIndex << "]";
   assert(mLiterals.find(sstr.str()) == mLiterals.end());
   mLiterals[lit] = sstr.str();
-  return mLiterals[lit] = sstr.str();
+  mLiteralsReverse[sstr.str()] = lit;
+  return mLiterals[lit];
 }
 
 string blifverifier::BLIF::registerLiteral(const string& lit) {
@@ -182,6 +237,7 @@ string blifverifier::BLIF::registerLiteral(const string& lit) {
     std::ostringstream sstr;
     sstr << "node" << mNextLiteralIndex++;
     mLiterals[lit] = sstr.str();
+    mLiterals[sstr.str()] = lit;
   }
   return mLiterals[lit];
 }
@@ -235,7 +291,7 @@ void blifverifier::BLIF::writeEvaluator(std::ostream& output, const string& fxn_
   // We need to write out the assignments in topologically sorted order to
   // ensure that all dependencies are met. BLIF does not require the circuit
   // be so sorted.
-  std::unordered_set<std::string> ordered(mPrimaryInputs.begin(), mPrimaryInputs.end());
+  std::unordered_set<std::string> ordered;
   for (const auto& gate : mTruthTables) {
     if (ordered.find(gate.first) == ordered.end()) {
       std::stack<string> todo;
@@ -256,9 +312,7 @@ void blifverifier::BLIF::writeEvaluator(std::ostream& output, const string& fxn_
         }
         if (ready) {
           ordered.insert(top_name);
-          output << "size_t " << top_name << " = ";
-          top.generateCode(output);
-          output << "; // strategy: naive\n";
+          top.generateCode(top_name, output);
         }
       }
     }

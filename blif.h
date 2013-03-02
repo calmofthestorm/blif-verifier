@@ -16,11 +16,15 @@ struct TruthTableEntry {
 };
 
 struct TruthTable {
+  enum class TTKind {INPUT, OUTPUT, NORMAL};
   std::vector<std::string> inputs;
   std::vector<TruthTableEntry> entries;
 
   // Represents the entire truth table as a C logic expression.
-  void generateCode(std::ostream& out) const;
+  void generateCode(const std::string& name, std::ostream& out) const;
+
+  // Primary inputs and outputs require special treatment for code generation.
+  TTKind mKind;
 };
 
 //TODO: use exceptions
@@ -37,8 +41,16 @@ class BLIF {
     // provided ostream.
     void writeEvaluator(std::ostream& output, const std::string& fxn_name) const;
 
-    // Returns a vector of the names of the node's inputs.
-    const std::vector<bool>& getInputs() const;
+    // Returns a set of the names of the node's inputs.
+    const std::vector<std::string>& getPrimaryInputs() const;
+
+    // Returns a set of the names of the node's outputs.
+    const std::vector<std::string>& getPrimaryOutputs() const;
+
+    // Returns true if the circuits are trivially not equivalent
+    // (eg, different inputs) and prints warning messages
+    // to the provided stream.
+    bool triviallyNotEquivalent(const BLIF& other, std::ostream& warnings) const;
 
   private:
     // Reads a single line from the stream, and returns a vector of strings.
@@ -58,13 +70,14 @@ class BLIF {
     std::string mModel;
 
     // A vector of the primary inputs names.
-    std::unordered_set<std::string> mPrimaryInputs;
+    std::vector<std::string> mPrimaryInputs;
 
     // A vector of the primary outputs names.
-    std::unordered_set<std::string> mPrimaryOutputs;
+    std::vector<std::string> mPrimaryOutputs;
 
-    // Map from user supplied names to the ones we'll use.
+    // Bimap from user supplied names to the ones we'll use.
     std::unordered_map<std::string, std::string> mLiterals;
+    std::unordered_map<std::string, std::string> mLiteralsReverse;
 
     // Next integer to use for unique generated names.
     int mNextLiteralIndex;
