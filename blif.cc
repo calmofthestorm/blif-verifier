@@ -35,7 +35,15 @@ namespace {
   };
 }
 
-void blifverifier::TruthTableEntry::generateCode(ostream& out,
+TruthTable::TruthTable()
+  : mKind(TTKind::NORMAL) { }
+
+TruthTable::TruthTable(TruthTable::TTKind kind)
+  : mKind(kind) { }
+
+// TODO: if BLIF truthtable contains a contradiction it will be resolved silently
+// as true.
+void TruthTableEntry::generateCode(ostream& out,
                                                  const vector<string>& input_names) const {
   out << "(";
   for (decltype(inputs)::size_type i = 0; i < inputs.size(); ++i) {
@@ -46,19 +54,19 @@ void blifverifier::TruthTableEntry::generateCode(ostream& out,
       out << input_names[i] << " && ";
     }
   }
-  out << " 1)";
+  out << " -1)";
 }
 
-void blifverifier::TruthTable::generateCode(const string& name, ostream& out) const {
+void TruthTable::generateCode(const string& name, ostream& out) const {
   if (mKind != TruthTable::TTKind::INPUT) {
     if (mKind == TruthTable::TTKind::NORMAL) {
       out << "size_t ";
     }
     out << name << " = ";
     out << "(";
-    for (const auto& entry : entries) {
+    for (const auto& entry : mEntries) {
       if (entry.output == TOKENS::ONE) {
-        entry.generateCode(out, inputs);
+        entry.generateCode(out, mInputs);
         out << " || ";
       }
     }
@@ -66,10 +74,24 @@ void blifverifier::TruthTable::generateCode(const string& name, ostream& out) co
   }
 }
 
-blifverifier::BLIF::BLIF(istream&& input)
+void TruthTable::addInput(const std::string& input) {
+  assert(mKind != TTKind::INPUT);
+  mInputs.push_back(input);
+}
+
+void TruthTable::addEntry(const TruthTableEntry& entry) {
+  assert(mKind != TTKind::INPUT);
+  mEntries.push_back(entry);
+}
+
+const vector<string>& TruthTable::getInputs() const {
+  return mInputs;
+}
+
+BLIF::BLIF(istream&& input)
   : BLIF(input) {}
 
-blifverifier::BLIF::BLIF(istream& input)
+BLIF::BLIF(istream& input)
   : mNextLiteralIndex(0) {
   assert(input); // TODO all this should be exceptions
 
@@ -104,8 +126,7 @@ blifverifier::BLIF::BLIF(istream& input)
       int index = 0;
       while (tok != tokens.end()) {
         mPrimaryInputs.push_back(*tok);
-        TruthTable tt;
-        tt.mKind = TruthTable::TTKind::INPUT;
+        TruthTable tt(TruthTable::TTKind::INPUT);
         mTruthTables[registerLiteral(*tok, "inputs", index++)] = tt;
         ++tok;
       }
@@ -132,25 +153,24 @@ blifverifier::BLIF::BLIF(istream& input)
 
       // Parse the truth table.
       // Save the inputs.
-      TruthTable tt;
-      if (outputs.find(name) != outputs.end()) {
-        tt.mKind = TruthTable::TTKind::OUTPUT;
-      } else {
-        tt.mKind = TruthTable::TTKind::NORMAL;
-      }
+      auto kind = (outputs.find(name) != outputs.end() ?
+                   TruthTable::TTKind::OUTPUT :
+                   TruthTable::TTKind::NORMAL);
+      TruthTable tt(kind);
       while (tok != tokens.end() - 1) {
-        tt.inputs.push_back(registerLiteral(*tok++));
+        tt.addInput(registerLiteral(*tok++));
       }
 
       // Keep reading logic lines until we hit something else, and push it back.
       do {
         tokens = readLineAsTokens(input);
-        if (tokens.size() == 2 && isValidTTEntry(tokens[0], tt.inputs.size()) &&
-            tokens[0].size() == tt.inputs.size() && tokens[1].size() == 1 &&
+        if (tokens.size() == 2 &&
+            isValidTTEntry(tokens[0], tt.getInputs().size()) &&
+            tokens[0].size() == tt.getInputs().size() && tokens[1].size() == 1 &&
             (tokens[1][0] == TOKENS::ZERO || tokens[1][0] == TOKENS::ONE)) {
           // Is a valid logic line.
           TruthTableEntry tte{tokens[0], tokens[1][0]};
-          tt.entries.push_back(tte);
+          tt.addEntry(tte);
         } else {
           // Either another section or an error.
           read_next_line = false;
@@ -175,7 +195,7 @@ blifverifier::BLIF::BLIF(istream& input)
   // Ensure all dependencies of this truth table are in the map.
   for (const auto& tt : mTruthTables) {
     auto inputs = tt.second;
-    for (const auto& input : tt.second.inputs) {
+    for (const auto& input : tt.second.getInputs()) {
       //TODO exceptions
       assert(mTruthTables.find(input) != mTruthTables.end());
     }
@@ -187,7 +207,7 @@ blifverifier::BLIF::BLIF(istream& input)
   }
 }
 
-bool blifverifier::BLIF::triviallyNotEquivalent(const blifverifier::BLIF& other, ostream& warn) const {
+bool BLIF::triviallyNotEquivalent(const BLIF& other, ostream& warn) const {
   if (other.mPrimaryInputs.size() != mPrimaryInputs.size()) {
     warn << "WARNING: Circuits not equivalent; different number of inputs.\n";
     return true;
@@ -219,7 +239,7 @@ const std::vector<std::string>& BLIF::getPrimaryOutputs() const {
   return mPrimaryOutputs;
 }
 
-string blifverifier::BLIF::registerLiteral(const string& lit,
+string BLIF::registerLiteral(const string& lit,
                                            const string& arrayName,
                                            int arrayIndex) {
   // TODO: throw
@@ -231,7 +251,7 @@ string blifverifier::BLIF::registerLiteral(const string& lit,
   return mLiterals[lit];
 }
 
-string blifverifier::BLIF::registerLiteral(const string& lit) {
+string BLIF::registerLiteral(const string& lit) {
   // TODO: throw
   if (mLiterals.find(lit) == mLiterals.end()) {
     std::ostringstream sstr;
@@ -242,7 +262,7 @@ string blifverifier::BLIF::registerLiteral(const string& lit) {
   return mLiterals[lit];
 }
 
-bool blifverifier::BLIF::isValidTTEntry(const string& line, int num_entries) {
+bool BLIF::isValidTTEntry(const string& line, int num_entries) {
   if (num_entries != line.size()) {
     return false;
   }
@@ -256,7 +276,7 @@ bool blifverifier::BLIF::isValidTTEntry(const string& line, int num_entries) {
   return true;
 }
 
-vector<string> blifverifier::BLIF::readLineAsTokens(istream& input) {
+vector<string> BLIF::readLineAsTokens(istream& input) {
   string line;
   vector<string> result;
 
@@ -284,7 +304,7 @@ vector<string> blifverifier::BLIF::readLineAsTokens(istream& input) {
   return result;
 }
 
-void blifverifier::BLIF::writeEvaluator(std::ostream& output, const string& fxn_name) const {
+void BLIF::writeEvaluator(std::ostream& output, const string& fxn_name) const {
   output << "void " << fxn_name << "(size_t inputs[numInputs],"
          << " size_t outputs[numOutputs]) {\n";
 
@@ -301,7 +321,7 @@ void blifverifier::BLIF::writeEvaluator(std::ostream& output, const string& fxn_
         todo.pop();
         bool ready = true;
         const TruthTable& top = mTruthTables.find(top_name)->second;
-        for (const auto& dependency : top.inputs) {
+        for (const auto& dependency : top.getInputs()) {
           if (ordered.find(dependency) == ordered.end()) {
             if (ready == true) {
               todo.push(top_name);

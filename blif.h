@@ -15,16 +15,34 @@ struct TruthTableEntry {
   void generateCode(std::ostream& out, const std::vector<std::string>& input_names) const;
 };
 
-struct TruthTable {
-  enum class TTKind {INPUT, OUTPUT, NORMAL};
-  std::vector<std::string> inputs;
-  std::vector<TruthTableEntry> entries;
+class TruthTable {
+  public:
+    // Special kinds of truth tables.
+    enum class TTKind {INPUT, OUTPUT, NORMAL};
 
-  // Represents the entire truth table as a C logic expression.
-  void generateCode(const std::string& name, std::ostream& out) const;
+    TruthTable();
+    TruthTable(TTKind kind);
 
-  // Primary inputs and outputs require special treatment for code generation.
-  TTKind mKind;
+    // Add an input to the truth table (not valid for inputs)
+    void addInput(const std::string& input);
+
+    // Add an entry to the truth table
+    void addEntry(const TruthTableEntry& entry);
+
+    const std::vector<std::string>& getInputs() const;    
+
+    // Represents the entire truth table as a C logic expression.
+    void generateCode(const std::string& name, std::ostream& out) const;
+
+  private:
+    // (Translated) names of the inputs to the truth table.
+    std::vector<std::string> mInputs;
+
+    // All entries for the circuit that have defined output.
+    std::vector<TruthTableEntry> mEntries;
+
+    // Primary inputs and outputs require special treatment for code generation.
+    TTKind mKind;
 };
 
 //TODO: use exceptions
