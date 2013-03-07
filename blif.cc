@@ -9,6 +9,7 @@
 
 #include "blif.h"
 #include "truthtable.h"
+#include "tokenizer.h"
 
 #include <iostream>
 
@@ -32,21 +33,22 @@ BLIF::BLIF(istream& input)
   bool read_inputs = false;
   bool read_outputs = false;
 
+  // Need this to handle validation -- outputs are a special case but we don't
+  // know it when reading their truth table.
   unordered_set<string> outputs;
 
-  auto tokens = readLineAsTokens(input);
-  while (input && !tokens.empty() && tokens[0] != TOKENS::END) {
+  Tokenizer::LineTokenReader reader(input);
+
+  auto tokens = reader.readLine();
+  while (reader.isGood() && tokens[0] != TOKENS::END) {
     auto tok = tokens.begin();
     auto section = *tok++;
-
-    // This is so we can "push back" when we read one line too far in the .names
-    // sections.
-    bool read_next_line = true;
 
     // Allow at most one model name.
     if (section == TOKENS::MODEL) {
       assert(!read_model);
       read_model = true;
+      // De-tokenize the model name (since they can have spaces)
       while (tok != tokens.end()) {
         mModel += *tok++ + " ";
       }
@@ -95,8 +97,9 @@ BLIF::BLIF(istream& input)
       }
 
       // Keep reading logic lines until we hit something else, and push it back.
+      bool done = false;
       do {
-        tokens = readLineAsTokens(input);
+        tokens = reader.readLine();
         if (tokens.size() == 2 &&
             isValidTTEntry(tokens[0], tt.getInputs().size()) &&
             tokens[0].size() == tt.getInputs().size() && tokens[1].size() == 1 &&
@@ -106,9 +109,10 @@ BLIF::BLIF(istream& input)
           tt.addEntry(tte);
         } else {
           // Either another section or an error.
-          read_next_line = false;
+          reader.putBack(std::move(tokens));
+          done = true;
         }
-      } while (read_next_line);
+      } while (!done);
       mTruthTables[name] = tt;
 
       // TODO: would be nice to verify the consistency of the input cover.
@@ -118,9 +122,7 @@ BLIF::BLIF(istream& input)
         assert(section == TOKENS::END);
       }
 
-      if (read_next_line) {
-        tokens = readLineAsTokens(input);
-      }
+      tokens = reader.readLine();
     }
 
   // Verify the BLIF's validity for, eg, undefined names.
@@ -207,34 +209,6 @@ bool BLIF::isValidTTEntry(const string& line, int num_entries) {
   }
 
   return true;
-}
-
-vector<string> BLIF::readLineAsTokens(istream& input) {
-  string line;
-  vector<string> result;
-
-  // Read until we fail to read a line or get a non-empty line. Lines with just
-  // whitespace or a comment are ignored as empty.
-  while (result.empty()) {
-    // Read failure. Return empty result.
-    if (!std::getline(input, line)) {
-      return result;
-    }
-
-    // Tokenize the line and store the tokens in the vector.
-    istringstream tokenizer(line);
-    std::copy(std::istream_iterator<string>(tokenizer),
-              std::istream_iterator<string>(),
-              std::back_inserter(result));
-
-
-    // Remove any comments (tokens that begin with #) and any tokens after them
-    // if a comment is found.
-    auto comment = std::find_if(result.begin(), result.end(),
-                                [](const string& tok){return tok[0] == '#';});
-    result.erase(comment, result.end());
-  }
-  return result;
 }
 
 void BLIF::writeEvaluator(std::ostream& output, const string& fxn_name) const {
