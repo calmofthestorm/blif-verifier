@@ -22,6 +22,9 @@ code to create the circuit evaluations, then put the tight loop in the
 program, thus removing the need for a user to perform a compile-run-compile
 action, but this is difficult to implement in a platform-agnostic way.
 
+Note that the primary purpose of writing this was to play with all the cool
+new toys in C++11, and so I'm taking the excuse to use them wherever possible.
+
 ISSUES:
 * Code still needs some cleanup (assertions -> exceptions; better messages)
 * Infinite loop on non-combinational circuits (-> error)

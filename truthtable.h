@@ -6,6 +6,10 @@
 #include <unordered_set>
 #include <vector>
 
+namespace Tokenizer {
+  class LineTokenReader;
+}
+
 namespace blifverifier {
 
   namespace TOKENS {
@@ -40,8 +44,8 @@ class TruthTable {
     // Special kinds of truth tables.
     enum class TTKind {INPUT, OUTPUT, NORMAL};
 
-    TruthTable();
-    TruthTable(TTKind kind);
+    TruthTable(); // Default -- primary input
+    TruthTable(Tokenizer::LineTokenReader& reader, std::vector<std::string>&& inputs, TTKind kind);
 
     // Add an input to the truth table (not valid for inputs)
     void addInput(const std::string& input);
@@ -55,6 +59,9 @@ class TruthTable {
     void generateCode(const std::string& name, std::ostream& out) const;
 
   private:
+    // Verifies a truth table line.
+    static bool isValidTTEntry(const std::string& line, int num_entries);
+
     // (Translated) names of the inputs to the truth table.
     std::vector<std::string> mInputs;
 

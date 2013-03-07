@@ -40,9 +40,6 @@ class BLIF {
     // Will strip comments denoted by #, and any lines with no tokens.
     static std::vector<std::string> readLineAsTokens(std::istream& input);
 
-    // Verifies a truth table line.
-    static bool isValidTTEntry(const std::string& line, int num_entries);
-
     // Generate a unique name for this user node (eg to mitigate naming conflicts)
     std::string registerLiteral(const std::string& lit);
     std::string registerLiteral(const std::string& lit,
