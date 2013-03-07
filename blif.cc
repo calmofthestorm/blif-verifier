@@ -61,8 +61,7 @@ BLIF::BLIF(istream& input)
       int index = 0;
       while (tok != tokens.end()) {
         mPrimaryInputs.push_back(*tok);
-        TruthTable tt(TruthTable::TTKind::INPUT);
-        mTruthTables[registerLiteral(*tok, "inputs", index++)] = tt;
+        mTruthTables[registerLiteral(*tok, "inputs", index++)] = TruthTable();
         ++tok;
       }
     }
@@ -86,34 +85,15 @@ BLIF::BLIF(istream& input)
       string name = registerLiteral(*(tokens.end() - 1));
       assert(mTruthTables.find(name) == mTruthTables.end());
 
-      // Parse the truth table.
-      // Save the inputs.
       auto kind = (outputs.find(name) != outputs.end() ?
                    TruthTable::TTKind::OUTPUT :
                    TruthTable::TTKind::NORMAL);
-      TruthTable tt(kind);
-      while (tok != tokens.end() - 1) {
-        tt.addInput(registerLiteral(*tok++));
-      }
 
-      // Keep reading logic lines until we hit something else, and push it back.
-      bool done = false;
-      do {
-        tokens = reader.readLine();
-        if (tokens.size() == 2 &&
-            isValidTTEntry(tokens[0], tt.getInputs().size()) &&
-            tokens[0].size() == tt.getInputs().size() && tokens[1].size() == 1 &&
-            (tokens[1][0] == TOKENS::ZERO || tokens[1][0] == TOKENS::ONE)) {
-          // Is a valid logic line.
-          TruthTableEntry tte(tokens[0], tokens[1][0]);
-          tt.addEntry(tte);
-        } else {
-          // Either another section or an error.
-          reader.putBack(std::move(tokens));
-          done = true;
-        }
-      } while (!done);
-      mTruthTables[name] = tt;
+      vector<string> literals;
+      while (tok != tokens.end() - 1) {
+        literals.push_back(registerLiteral(*tok++));
+      }
+      mTruthTables[name] = TruthTable(reader, std::move(literals), kind);
 
       // TODO: would be nice to verify the consistency of the input cover.
 
@@ -174,9 +154,8 @@ const std::vector<std::string>& BLIF::getPrimaryOutputs() const {
   return mPrimaryOutputs;
 }
 
-string BLIF::registerLiteral(const string& lit,
-                                           const string& arrayName,
-                                           int arrayIndex) {
+string BLIF::registerLiteral(const string& lit, const string& arrayName,
+                             int arrayIndex) {
   // TODO: throw
   std::ostringstream sstr;
   sstr << arrayName << "[" << arrayIndex << "]";
@@ -195,20 +174,6 @@ string BLIF::registerLiteral(const string& lit) {
     mLiterals[sstr.str()] = lit;
   }
   return mLiterals[lit];
-}
-
-bool BLIF::isValidTTEntry(const string& line, int num_entries) {
-  if (num_entries != static_cast<int>(line.size())) {
-    return false;
-  }
-
-  for (const auto& c : line) {
-    if (c != TOKENS::ZERO && c != TOKENS::ONE && c != TOKENS::NC) {
-      return false;
-    }
-  }
-
-  return true;
 }
 
 void BLIF::writeEvaluator(std::ostream& output, const string& fxn_name) const {

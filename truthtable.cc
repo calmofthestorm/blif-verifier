@@ -7,6 +7,7 @@
 #include <stack>
 #include <vector>
 
+#include "tokenizer.h"
 #include "truthtable.h"
 
 #include <iostream>
@@ -18,14 +19,47 @@ using std::string;
 using std::vector;
 using std::unordered_set;
 
-using blifverifier::TruthTable;
-using blifverifier::TruthTableEntry;
+namespace blifverifier {
 
 TruthTable::TruthTable()
-  : mKind(TTKind::NORMAL) { }
+  : mKind(TTKind::INPUT) { }
 
-TruthTable::TruthTable(TruthTable::TTKind kind)
-  : mKind(kind) { }
+bool TruthTable::isValidTTEntry(const string& line, int num_entries) {
+  if (num_entries != static_cast<int>(line.size())) {
+    return false;
+  }
+
+  for (const auto& c : line) {
+    if (c != TOKENS::ZERO && c != TOKENS::ONE && c != TOKENS::NC) {
+      return false;
+    }
+  }
+
+  return true;
+}
+
+TruthTable::TruthTable(Tokenizer::LineTokenReader& reader,
+                       vector<string>&& inputs, TTKind kind)
+  : mInputs(inputs), mKind(kind) {
+  // Parse the truth table.
+  // Keep reading logic lines until we hit something else, and push it back.
+  while (reader.isGood()) {
+    auto tokens = reader.readLine();
+    if (tokens.size() == 2 &&
+        isValidTTEntry(tokens[0], inputs.size()) &&
+        tokens[0].size() == inputs.size() && tokens[1].size() == 1 &&
+        (tokens[1][0] == TOKENS::ZERO || tokens[1][0] == TOKENS::ONE || tokens[1][0] == TOKENS::NC)) {
+      // Is a valid logic line.
+      TruthTableEntry tte(tokens[0], tokens[1][0]);
+      addEntry(tte);
+    } else {
+      // Read a non-TT line. Push it back and finish.
+      reader.putBack(std::move(tokens));
+      return;
+    }
+  }
+  assert(false); // TODO: exception
+}
 
 TruthTableEntry::TruthTableEntry(const std::string& inputs, char output)
   : mInputs(inputs), mOutput(output) { }
@@ -37,7 +71,7 @@ char TruthTableEntry::getOutput() const {
 // TODO: if BLIF truthtable contains a contradiction it will be resolved silently
 // as true.
 void TruthTableEntry::generateCode(ostream& out,
-                                                 const vector<string>& input_names) const {
+                                   const vector<string>& input_names) const {
   out << "(";
   for (decltype(mInputs)::size_type i = 0; i < mInputs.size(); ++i) {
     if (mInputs[i] != TOKENS::NC) {
@@ -80,3 +114,5 @@ void TruthTable::addEntry(const TruthTableEntry& entry) {
 const vector<string>& TruthTable::getInputs() const {
   return mInputs;
 }
+
+} // namespace blifverifier
