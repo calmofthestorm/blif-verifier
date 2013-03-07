@@ -12,18 +12,14 @@
 
 #include <iostream>
 
+namespace blifverifier {
+
 using std::istream;
 using std::istringstream;
 using std::ostream;
 using std::string;
 using std::vector;
 using std::unordered_set;
-
-using blifverifier::BLIF;
-using blifverifier::TruthTable;
-using blifverifier::TruthTableEntry;
-
-
 
 BLIF::BLIF(istream&& input)
   : BLIF(input) {}
@@ -276,4 +272,5 @@ void BLIF::writeEvaluator(std::ostream& output, const string& fxn_name) const {
   }
 
   output << "}\n";
+}
 }
