@@ -17,6 +17,36 @@ data structures (similar to compiling vs interpreting); about two orders
 of magnitude faster than my simulation verifier (written for a course at
 Michigan and therefore not publishable).
 
+Note: Compiler optimizations are designed with the idea that the code will
+be compiled once and run many times. Presumably, the verifier is a one-shot
+program. As such, I have found that it is typically faster to compile the
+verifier WITHOUT compiler optimizations -- the verifier will run much, much
+slower, but the compile will finish much faster as well, and you win on
+balance.
+
+alexr@autumn:~/projects/blif-verifier$ time gcc harness.c a.c -lm  -O3
+real  0m57.275s
+user  0m56.808s
+sys   0m0.260s
+
+alexr@autumn:~/projects/blif-verifier$ time ./a.out
+Circuits are equivalent. 65536 combinations explored.
+real  0m0.030s
+user  0m0.028s
+sys   0m0.000s
+
+alexr@autumn:~/projects/blif-verifier$ time gcc harness.c a.c -lm 
+real  0m17.571s
+user  0m17.005s
+sys   0m0.372s
+
+alexr@autumn:~/projects/blif-verifier$ time ./a.out
+Circuits are equivalent. 65536 combinations explored.
+
+real  0m0.976s
+user  0m0.944s
+sys   0m0.020s
+
 A cleaner solution might be to cut out the compiler and just emit machine
 code to create the circuit evaluations, then put the tight loop in the
 program, thus removing the need for a user to perform a compile-run-compile
