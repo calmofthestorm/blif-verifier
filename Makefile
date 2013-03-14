@@ -4,8 +4,8 @@
 #   >make clean	   #
 ####################
 
-FILES = truthtable.cc blif-verifier.cc blif.cc tokenizer.cc
-OBJECTS = truthtable.o blif-verifier.o blif.o tokenizer.o
+FILES = truthtable.cc blif-verifier.cc blif.cc tokenizer.cc error.cc
+OBJECTS = truthtable.o blif-verifier.o blif.o tokenizer.o error.o
 
 CPPFLAGS = -Wall -pedantic --std=c++11
 

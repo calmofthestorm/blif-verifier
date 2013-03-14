@@ -6,22 +6,25 @@
 #include <unordered_set>
 #include <vector>
 
+#include "error.h"
+
 namespace Tokenizer {
   class LineTokenReader;
 }
 
 namespace blifverifier {
 
-  namespace TOKENS {
-    const std::string MODEL = ".model";
-    const std::string INPUTS = ".inputs";
-    const std::string OUTPUTS = ".outputs";
-    const std::string NAMES = ".names";
-    const std::string END = ".end";
-    const char ZERO = '0';
-    const char ONE = '1';
-    const char NC = '-';
-  }
+// TODO: clean this up
+namespace TOKENS {
+  const std::string MODEL = ".model";
+  const std::string INPUTS = ".inputs";
+  const std::string OUTPUTS = ".outputs";
+  const std::string NAMES = ".names";
+  const std::string END = ".end";
+  const char ZERO = '0';
+  const char ONE = '1';
+  const char NC = '-';
+}
 
 class TruthTableEntry {
   public:

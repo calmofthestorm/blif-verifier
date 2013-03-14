@@ -8,6 +8,7 @@
 #include <vector>
 
 #include "blif.h"
+#include "error.h"
 #include "truthtable.h"
 #include "tokenizer.h"
 
@@ -27,14 +28,17 @@ BLIF::BLIF(istream&& input)
 
 BLIF::BLIF(istream& input)
   : mNextLiteralIndex(0) {
-  assert(input); // TODO all this should be exceptions
+  if (!input) {
+    throw BadInputStreamError();
+  }
 
   bool read_model = false;
   bool read_inputs = false;
   bool read_outputs = false;
 
   // Need this to handle validation -- outputs are a special case but we don't
-  // know it when reading their truth table.
+  // know it when reading their truth table. Once we're done reading the file
+  // we can discard this, however.
   unordered_set<string> outputs;
 
   Tokenizer::LineTokenReader reader(input);
@@ -46,7 +50,9 @@ BLIF::BLIF(istream& input)
 
     // Allow at most one model name.
     if (section == TOKENS::MODEL) {
-      assert(!read_model);
+      if (read_model) {
+        throw DuplicateBlockError(reader.getRawLineNumber(), "model");
+      }
       read_model = true;
       // De-tokenize the model name (since they can have spaces)
       while (tok != tokens.end()) {
@@ -56,7 +62,9 @@ BLIF::BLIF(istream& input)
 
     // Allow at most one inputs section.
     else if (section == TOKENS::INPUTS) {
-      assert(!read_inputs);
+      if (read_inputs) {
+        throw DuplicateBlockError(reader.getRawLineNumber(), "inputs");
+      }
       read_inputs = true;
       int index = 0;
       while (tok != tokens.end()) {
@@ -68,7 +76,9 @@ BLIF::BLIF(istream& input)
 
     // Allow at most one outputs section.
     else if (section == TOKENS::OUTPUTS) {
-      assert(!read_outputs);
+      if (read_outputs) {
+        throw DuplicateBlockError(reader.getRawLineNumber(), "outputs");
+      }
       read_outputs = true;
       int index = 0;
       while (tok != tokens.end()) {
@@ -81,7 +91,14 @@ BLIF::BLIF(istream& input)
     // All names sections must be unique, and all outputs need one.
     else if (section == TOKENS::NAMES) {
       // Verify we are ready for these and the uniqueness of the name.
-      assert(read_inputs && read_outputs && read_model);
+      if (!read_inputs) {
+        throw NamesBlockBeforeHeadersError(reader.getRawLineNumber(), "inputs");
+      } else if (!read_outputs) {
+        throw NamesBlockBeforeHeadersError(reader.getRawLineNumber(), "outputs");
+      } else if (!read_model) {
+        throw NamesBlockBeforeHeadersError(reader.getRawLineNumber(), "model");
+      }
+
       string name = registerLiteral(*(tokens.end() - 1));
       assert(mTruthTables.find(name) == mTruthTables.end());
 
@@ -95,11 +112,15 @@ BLIF::BLIF(istream& input)
       }
       mTruthTables[name] = TruthTable(reader, std::move(literals), kind);
 
-      // TODO: would be nice to verify the consistency of the input cover.
+      // TODO: would be nice to verify the consistency of the input cover, or
+      //       provide an option to if it's algorithmically expensive.
 
       // Last remaining valid token.
       } else {
-        assert(section == TOKENS::END);
+        if (section != TOKENS::END) {
+          throw UnrecognizedSectionError(reader.getRawLineNumber(),
+                                         section.c_str());
+        }
       }
 
       tokens = reader.readLine();
@@ -111,14 +132,18 @@ BLIF::BLIF(istream& input)
   for (const auto& tt : mTruthTables) {
     auto inputs = tt.second;
     for (const auto& input : tt.second.getInputs()) {
-      //TODO exceptions
-      assert(mTruthTables.find(input) != mTruthTables.end());
+      if (mTruthTables.find(input) == mTruthTables.end()) {
+        throw MissingLogicDependencyError(mLiteralsReverse[tt.first].c_str(),
+                                          mLiteralsReverse[input].c_str());
+      }
     }
   }
 
   // Ensure all primary outputs are defined.
   for (const auto& po : mPrimaryOutputs) {
-    assert(mTruthTables.find(registerLiteral(po)) != mTruthTables.end());
+    if (mTruthTables.find(registerLiteral(po)) == mTruthTables.end()) {
+      throw UndefinedPrimaryOutputError(po.c_str());
+    }
   }
 }
 
@@ -156,17 +181,17 @@ const std::vector<std::string>& BLIF::getPrimaryOutputs() const {
 
 string BLIF::registerLiteral(const string& lit, const string& arrayName,
                              int arrayIndex) {
-  // TODO: throw
   std::ostringstream sstr;
   sstr << arrayName << "[" << arrayIndex << "]";
-  assert(mLiterals.find(sstr.str()) == mLiterals.end());
+  if (mLiterals.find(sstr.str()) != mLiterals.end()) {
+    throw DuplicateLiteralError(sstr.str());
+  }
   mLiterals[lit] = sstr.str();
   mLiteralsReverse[sstr.str()] = lit;
   return mLiterals[lit];
 }
 
 string BLIF::registerLiteral(const string& lit) {
-  // TODO: throw
   if (mLiterals.find(lit) == mLiterals.end()) {
     std::ostringstream sstr;
     sstr << "node" << mNextLiteralIndex++;

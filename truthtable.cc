@@ -58,7 +58,7 @@ TruthTable::TruthTable(Tokenizer::LineTokenReader& reader,
       return;
     }
   }
-  assert(false); // TODO: exception
+  throw MalformedTruthTableError(reader.getRawLineNumber());
 }
 
 TruthTableEntry::TruthTableEntry(const std::string& inputs, char output)

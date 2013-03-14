@@ -10,7 +10,6 @@
 
 namespace blifverifier {
 
-//TODO: use exceptions
 class BLIF {
   public:
     // Constructs an empty BLIF (no inputs, outputs, names, logic, etc).
