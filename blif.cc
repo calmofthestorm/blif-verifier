@@ -216,20 +216,27 @@ void BLIF::writeEvaluator(std::ostream& output, const string& fxn_name) const {
       while (!todo.empty()) {
         string top_name = todo.top();
         todo.pop();
-        bool ready = true;
-        const TruthTable& top = mTruthTables.find(top_name)->second;
-        for (const auto& dependency : top.getInputs()) {
-          if (ordered.find(dependency) == ordered.end()) {
-            if (ready == true) {
-              todo.push(top_name);
-              ready = false;
+        // This second check is necessary if the same gate occurs twice in a
+        // given dependency tree. We could either index the stack with a set
+        // to prevent dupes on it or check here. This is better since a
+        // duplicate in the dep tree occasionally will waste less ram than
+        // doubling the storage of the dep stack, and both take the same time.
+        if (ordered.find(top_name) == ordered.end()) {
+          bool ready = true;
+          const TruthTable& top = mTruthTables.find(top_name)->second;
+          for (const auto& dependency : top.getInputs()) {
+            if (ordered.find(dependency) == ordered.end()) {
+              if (ready) {
+                todo.push(top_name);
+                ready = false;
+              }
+              todo.push(dependency);
             }
-            todo.push(dependency);
           }
-        }
-        if (ready) {
-          ordered.insert(top_name);
-          top.generateCode(top_name, output);
+          if (ready) {
+            ordered.insert(top_name);
+            top.generateCode(top_name, output);
+          }
         }
       }
     }
