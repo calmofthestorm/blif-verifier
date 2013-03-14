@@ -16,7 +16,7 @@ LineTokenReader::LineTokenReader()
   : mGood(false) { }
 
 LineTokenReader::LineTokenReader(istream& is)
-  : mStream(&is), mGood(true) { }
+  : mStream(&is), mGood(true), mRawLineNumber(0) { }
 
 void LineTokenReader::readLine(vector<string>& result) {
   result.clear();
