@@ -40,6 +40,8 @@ void LineTokenReader::readLine(vector<string>& result) {
       return;
     }
 
+    ++mRawLineNumber;
+
     // Tokenize the line and store the tokens in the vector.
     istringstream tokenizer(line);
     std::copy(std::istream_iterator<string>(tokenizer),
@@ -70,6 +72,10 @@ void LineTokenReader::putBack(const vector<string>& tokens) {
 
 void LineTokenReader::putBack(vector<string>&& tokens) {
   mPushbacks.push(std::move(tokens));
+}
+
+int LineTokenReader::getRawLineNumber() const {
+  return mRawLineNumber;
 }
 
 bool LineTokenReader::isGood() const {

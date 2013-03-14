@@ -28,6 +28,10 @@ class LineTokenReader {
     void putBack(const std::vector<std::string>& tokens);
     void putBack(std::vector<std::string>&& tokens);
 
+    // Return the current raw line number (number of lines read from input
+    // stream). This will ignore things like putbacks.
+    int getRawLineNumber() const;
+
     // Query whether data can be read
     bool isGood() const;
 
@@ -41,6 +45,9 @@ class LineTokenReader {
 
     // Whether data can be read.
     bool mGood;
+
+    // Number of lines read from input stream.
+    int mRawLineNumber;
 };
 
 } // namespace Tokenizer
