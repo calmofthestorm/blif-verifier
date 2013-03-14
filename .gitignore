@@ -11,3 +11,8 @@
 *.lai
 *.la
 *.a
+
+# Coverage stuff
+*.gcno
+*.gcov
+*.gcda

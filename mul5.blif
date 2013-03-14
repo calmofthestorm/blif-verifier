@@ -1,0 +1,892 @@
+.model multiplier
+
+.inputs a[0] a[1] a[2] a[3] a[4] b[0] b[1] b[2] b[3] b[4] 
+
+.outputs s[0] s[1] s[2] s[3] s[4] s[5] s[6] s[7] s[8] s[9] 
+
+.names ZERO
+
+.names add121_fa_sa0 add121_fa_ia0 add121_c1
+-1 1
+1- 1
+
+.names add121_fa_sa1 add121_fa_ia1 add121_c2
+-1 1
+1- 1
+
+.names add121_fa_sa2 add121_fa_ia2 add121_c3
+-1 1
+1- 1
+
+.names add121_fa_sa3 add121_fa_ia3 add121_c4
+-1 1
+1- 1
+
+.names add121_fa_sa4 add121_fa_ia4 add121_c5
+-1 1
+1- 1
+
+.names add121_fa_sa5 add121_fa_ia5 add121_c6
+-1 1
+1- 1
+
+.names add121_fa_sa6 add121_fa_ia6 add121_c7
+-1 1
+1- 1
+
+.names add121_fa_sa7 add121_fa_ia7 add121_c8
+-1 1
+1- 1
+
+.names add121_fa_sa8 add121_fa_ia8 add121_c9
+-1 1
+1- 1
+
+.names mul0:partial_2*[0] mul0:partial_3*[0] add121_fa_ia0
+11 1
+
+.names mul0:partial_2*[1] mul0:partial_3*[1] add121_fa_ia1
+11 1
+
+.names mul0:partial_2*[2] mul0:partial_3*[2] add121_fa_ia2
+11 1
+
+.names mul0:partial_2*[3] mul0:partial_3*[3] add121_fa_ia3
+11 1
+
+.names mul0:partial_2*[4] mul0:partial_3*[4] add121_fa_ia4
+11 1
+
+.names mul0:partial_2*[5] mul0:partial_3*[5] add121_fa_ia5
+11 1
+
+.names mul0:partial_2*[6] mul0:partial_3*[6] add121_fa_ia6
+11 1
+
+.names mul0:partial_2*[7] mul0:partial_3*[7] add121_fa_ia7
+11 1
+
+.names mul0:partial_2*[8] mul0:partial_3*[8] add121_fa_ia8
+11 1
+
+.names mul0:partial_2*[9] mul0:partial_3*[9] add121_fa_ia9
+11 1
+
+.names add121_fa_x0 mul0_mt_1cin add121_fa_sa0
+11 1
+
+.names add121_fa_x1 add121_c1 add121_fa_sa1
+11 1
+
+.names add121_fa_x2 add121_c2 add121_fa_sa2
+11 1
+
+.names add121_fa_x3 add121_c3 add121_fa_sa3
+11 1
+
+.names add121_fa_x4 add121_c4 add121_fa_sa4
+11 1
+
+.names add121_fa_x5 add121_c5 add121_fa_sa5
+11 1
+
+.names add121_fa_x6 add121_c6 add121_fa_sa6
+11 1
+
+.names add121_fa_x7 add121_c7 add121_fa_sa7
+11 1
+
+.names add121_fa_x8 add121_c8 add121_fa_sa8
+11 1
+
+.names add121_fa_x9 add121_c9 add121_fa_sa9
+11 1
+
+.names mul0:partial_2*[0] mul0:partial_3*[0] add121_fa_x0
+10 1
+01 1
+
+.names mul0:partial_2*[1] mul0:partial_3*[1] add121_fa_x1
+10 1
+01 1
+
+.names mul0:partial_2*[2] mul0:partial_3*[2] add121_fa_x2
+10 1
+01 1
+
+.names mul0:partial_2*[3] mul0:partial_3*[3] add121_fa_x3
+10 1
+01 1
+
+.names mul0:partial_2*[4] mul0:partial_3*[4] add121_fa_x4
+10 1
+01 1
+
+.names mul0:partial_2*[5] mul0:partial_3*[5] add121_fa_x5
+10 1
+01 1
+
+.names mul0:partial_2*[6] mul0:partial_3*[6] add121_fa_x6
+10 1
+01 1
+
+.names mul0:partial_2*[7] mul0:partial_3*[7] add121_fa_x7
+10 1
+01 1
+
+.names mul0:partial_2*[8] mul0:partial_3*[8] add121_fa_x8
+10 1
+01 1
+
+.names mul0:partial_2*[9] mul0:partial_3*[9] add121_fa_x9
+10 1
+01 1
+
+.names add172_fa_sa0 add172_fa_ia0 add172_c1
+-1 1
+1- 1
+
+.names add172_fa_sa1 add172_fa_ia1 add172_c2
+-1 1
+1- 1
+
+.names add172_fa_sa2 add172_fa_ia2 add172_c3
+-1 1
+1- 1
+
+.names add172_fa_sa3 add172_fa_ia3 add172_c4
+-1 1
+1- 1
+
+.names add172_fa_sa4 add172_fa_ia4 add172_c5
+-1 1
+1- 1
+
+.names add172_fa_sa5 add172_fa_ia5 add172_c6
+-1 1
+1- 1
+
+.names add172_fa_sa6 add172_fa_ia6 add172_c7
+-1 1
+1- 1
+
+.names add172_fa_sa7 add172_fa_ia7 add172_c8
+-1 1
+1- 1
+
+.names add172_fa_sa8 add172_fa_ia8 add172_c9
+-1 1
+1- 1
+
+.names mul0:partial_4*[0] mul0_mt_0[0] add172_fa_ia0
+11 1
+
+.names mul0:partial_4*[1] mul0_mt_0[1] add172_fa_ia1
+11 1
+
+.names mul0:partial_4*[2] mul0_mt_0[2] add172_fa_ia2
+11 1
+
+.names mul0:partial_4*[3] mul0_mt_0[3] add172_fa_ia3
+11 1
+
+.names mul0:partial_4*[4] mul0_mt_0[4] add172_fa_ia4
+11 1
+
+.names mul0:partial_4*[5] mul0_mt_0[5] add172_fa_ia5
+11 1
+
+.names mul0:partial_4*[6] mul0_mt_0[6] add172_fa_ia6
+11 1
+
+.names mul0:partial_4*[7] mul0_mt_0[7] add172_fa_ia7
+11 1
+
+.names mul0:partial_4*[8] mul0_mt_0[8] add172_fa_ia8
+11 1
+
+.names mul0:partial_4*[9] mul0_mt_0[9] add172_fa_ia9
+11 1
+
+.names add172_fa_x0 mul0_mt_2cin add172_fa_sa0
+11 1
+
+.names add172_fa_x1 add172_c1 add172_fa_sa1
+11 1
+
+.names add172_fa_x2 add172_c2 add172_fa_sa2
+11 1
+
+.names add172_fa_x3 add172_c3 add172_fa_sa3
+11 1
+
+.names add172_fa_x4 add172_c4 add172_fa_sa4
+11 1
+
+.names add172_fa_x5 add172_c5 add172_fa_sa5
+11 1
+
+.names add172_fa_x6 add172_c6 add172_fa_sa6
+11 1
+
+.names add172_fa_x7 add172_c7 add172_fa_sa7
+11 1
+
+.names add172_fa_x8 add172_c8 add172_fa_sa8
+11 1
+
+.names add172_fa_x9 add172_c9 add172_fa_sa9
+11 1
+
+.names mul0:partial_4*[0] mul0_mt_0[0] add172_fa_x0
+10 1
+01 1
+
+.names mul0:partial_4*[1] mul0_mt_0[1] add172_fa_x1
+10 1
+01 1
+
+.names mul0:partial_4*[2] mul0_mt_0[2] add172_fa_x2
+10 1
+01 1
+
+.names mul0:partial_4*[3] mul0_mt_0[3] add172_fa_x3
+10 1
+01 1
+
+.names mul0:partial_4*[4] mul0_mt_0[4] add172_fa_x4
+10 1
+01 1
+
+.names mul0:partial_4*[5] mul0_mt_0[5] add172_fa_x5
+10 1
+01 1
+
+.names mul0:partial_4*[6] mul0_mt_0[6] add172_fa_x6
+10 1
+01 1
+
+.names mul0:partial_4*[7] mul0_mt_0[7] add172_fa_x7
+10 1
+01 1
+
+.names mul0:partial_4*[8] mul0_mt_0[8] add172_fa_x8
+10 1
+01 1
+
+.names mul0:partial_4*[9] mul0_mt_0[9] add172_fa_x9
+10 1
+01 1
+
+.names add223_fa_sa0 add223_fa_ia0 add223_c1
+-1 1
+1- 1
+
+.names add223_fa_sa1 add223_fa_ia1 add223_c2
+-1 1
+1- 1
+
+.names add223_fa_sa2 add223_fa_ia2 add223_c3
+-1 1
+1- 1
+
+.names add223_fa_sa3 add223_fa_ia3 add223_c4
+-1 1
+1- 1
+
+.names add223_fa_sa4 add223_fa_ia4 add223_c5
+-1 1
+1- 1
+
+.names add223_fa_sa5 add223_fa_ia5 add223_c6
+-1 1
+1- 1
+
+.names add223_fa_sa6 add223_fa_ia6 add223_c7
+-1 1
+1- 1
+
+.names add223_fa_sa7 add223_fa_ia7 add223_c8
+-1 1
+1- 1
+
+.names add223_fa_sa8 add223_fa_ia8 add223_c9
+-1 1
+1- 1
+
+.names mul0_mt_1[0] mul0_mt_2[0] add223_fa_ia0
+11 1
+
+.names mul0_mt_1[1] mul0_mt_2[1] add223_fa_ia1
+11 1
+
+.names mul0_mt_1[2] mul0_mt_2[2] add223_fa_ia2
+11 1
+
+.names mul0_mt_1[3] mul0_mt_2[3] add223_fa_ia3
+11 1
+
+.names mul0_mt_1[4] mul0_mt_2[4] add223_fa_ia4
+11 1
+
+.names mul0_mt_1[5] mul0_mt_2[5] add223_fa_ia5
+11 1
+
+.names mul0_mt_1[6] mul0_mt_2[6] add223_fa_ia6
+11 1
+
+.names mul0_mt_1[7] mul0_mt_2[7] add223_fa_ia7
+11 1
+
+.names mul0_mt_1[8] mul0_mt_2[8] add223_fa_ia8
+11 1
+
+.names mul0_mt_1[9] mul0_mt_2[9] add223_fa_ia9
+11 1
+
+.names add223_fa_x0 mul0_mt_3cin add223_fa_sa0
+11 1
+
+.names add223_fa_x1 add223_c1 add223_fa_sa1
+11 1
+
+.names add223_fa_x2 add223_c2 add223_fa_sa2
+11 1
+
+.names add223_fa_x3 add223_c3 add223_fa_sa3
+11 1
+
+.names add223_fa_x4 add223_c4 add223_fa_sa4
+11 1
+
+.names add223_fa_x5 add223_c5 add223_fa_sa5
+11 1
+
+.names add223_fa_x6 add223_c6 add223_fa_sa6
+11 1
+
+.names add223_fa_x7 add223_c7 add223_fa_sa7
+11 1
+
+.names add223_fa_x8 add223_c8 add223_fa_sa8
+11 1
+
+.names add223_fa_x9 add223_c9 add223_fa_sa9
+11 1
+
+.names mul0_mt_1[0] mul0_mt_2[0] add223_fa_x0
+10 1
+01 1
+
+.names mul0_mt_1[1] mul0_mt_2[1] add223_fa_x1
+10 1
+01 1
+
+.names mul0_mt_1[2] mul0_mt_2[2] add223_fa_x2
+10 1
+01 1
+
+.names mul0_mt_1[3] mul0_mt_2[3] add223_fa_x3
+10 1
+01 1
+
+.names mul0_mt_1[4] mul0_mt_2[4] add223_fa_x4
+10 1
+01 1
+
+.names mul0_mt_1[5] mul0_mt_2[5] add223_fa_x5
+10 1
+01 1
+
+.names mul0_mt_1[6] mul0_mt_2[6] add223_fa_x6
+10 1
+01 1
+
+.names mul0_mt_1[7] mul0_mt_2[7] add223_fa_x7
+10 1
+01 1
+
+.names mul0_mt_1[8] mul0_mt_2[8] add223_fa_x8
+10 1
+01 1
+
+.names mul0_mt_1[9] mul0_mt_2[9] add223_fa_x9
+10 1
+01 1
+
+.names add70_fa_sa0 add70_fa_ia0 add70_c1
+-1 1
+1- 1
+
+.names add70_fa_sa1 add70_fa_ia1 add70_c2
+-1 1
+1- 1
+
+.names add70_fa_sa2 add70_fa_ia2 add70_c3
+-1 1
+1- 1
+
+.names add70_fa_sa3 add70_fa_ia3 add70_c4
+-1 1
+1- 1
+
+.names add70_fa_sa4 add70_fa_ia4 add70_c5
+-1 1
+1- 1
+
+.names add70_fa_sa5 add70_fa_ia5 add70_c6
+-1 1
+1- 1
+
+.names add70_fa_sa6 add70_fa_ia6 add70_c7
+-1 1
+1- 1
+
+.names add70_fa_sa7 add70_fa_ia7 add70_c8
+-1 1
+1- 1
+
+.names add70_fa_sa8 add70_fa_ia8 add70_c9
+-1 1
+1- 1
+
+.names mul0:partial_0*[0] mul0:partial_1*[0] add70_fa_ia0
+11 1
+
+.names mul0:partial_0*[1] mul0:partial_1*[1] add70_fa_ia1
+11 1
+
+.names mul0:partial_0*[2] mul0:partial_1*[2] add70_fa_ia2
+11 1
+
+.names mul0:partial_0*[3] mul0:partial_1*[3] add70_fa_ia3
+11 1
+
+.names mul0:partial_0*[4] mul0:partial_1*[4] add70_fa_ia4
+11 1
+
+.names mul0:partial_0*[5] mul0:partial_1*[5] add70_fa_ia5
+11 1
+
+.names mul0:partial_0*[6] mul0:partial_1*[6] add70_fa_ia6
+11 1
+
+.names mul0:partial_0*[7] mul0:partial_1*[7] add70_fa_ia7
+11 1
+
+.names mul0:partial_0*[8] mul0:partial_1*[8] add70_fa_ia8
+11 1
+
+.names mul0:partial_0*[9] mul0:partial_1*[9] add70_fa_ia9
+11 1
+
+.names add70_fa_x0 mul0_mt_0cin add70_fa_sa0
+11 1
+
+.names add70_fa_x1 add70_c1 add70_fa_sa1
+11 1
+
+.names add70_fa_x2 add70_c2 add70_fa_sa2
+11 1
+
+.names add70_fa_x3 add70_c3 add70_fa_sa3
+11 1
+
+.names add70_fa_x4 add70_c4 add70_fa_sa4
+11 1
+
+.names add70_fa_x5 add70_c5 add70_fa_sa5
+11 1
+
+.names add70_fa_x6 add70_c6 add70_fa_sa6
+11 1
+
+.names add70_fa_x7 add70_c7 add70_fa_sa7
+11 1
+
+.names add70_fa_x8 add70_c8 add70_fa_sa8
+11 1
+
+.names add70_fa_x9 add70_c9 add70_fa_sa9
+11 1
+
+.names mul0:partial_0*[0] mul0:partial_1*[0] add70_fa_x0
+10 1
+01 1
+
+.names mul0:partial_0*[1] mul0:partial_1*[1] add70_fa_x1
+10 1
+01 1
+
+.names mul0:partial_0*[2] mul0:partial_1*[2] add70_fa_x2
+10 1
+01 1
+
+.names mul0:partial_0*[3] mul0:partial_1*[3] add70_fa_x3
+10 1
+01 1
+
+.names mul0:partial_0*[4] mul0:partial_1*[4] add70_fa_x4
+10 1
+01 1
+
+.names mul0:partial_0*[5] mul0:partial_1*[5] add70_fa_x5
+10 1
+01 1
+
+.names mul0:partial_0*[6] mul0:partial_1*[6] add70_fa_x6
+10 1
+01 1
+
+.names mul0:partial_0*[7] mul0:partial_1*[7] add70_fa_x7
+10 1
+01 1
+
+.names mul0:partial_0*[8] mul0:partial_1*[8] add70_fa_x8
+10 1
+01 1
+
+.names mul0:partial_0*[9] mul0:partial_1*[9] add70_fa_x9
+10 1
+01 1
+
+.names b[0] a[0] mul0:partial_0*[0]
+11 1
+
+.names b[1] a[0] mul0:partial_0*[1]
+11 1
+
+.names b[2] a[0] mul0:partial_0*[2]
+11 1
+
+.names b[3] a[0] mul0:partial_0*[3]
+11 1
+
+.names b[4] a[0] mul0:partial_0*[4]
+11 1
+
+.names mul0:partial_0*[5]
+
+.names mul0:partial_0*[6]
+
+.names mul0:partial_0*[7]
+
+.names mul0:partial_0*[8]
+
+.names mul0:partial_0*[9]
+
+.names mul0:partial_1*[0]
+
+.names b[0] a[1] mul0:partial_1*[1]
+11 1
+
+.names b[1] a[1] mul0:partial_1*[2]
+11 1
+
+.names b[2] a[1] mul0:partial_1*[3]
+11 1
+
+.names b[3] a[1] mul0:partial_1*[4]
+11 1
+
+.names b[4] a[1] mul0:partial_1*[5]
+11 1
+
+.names mul0:partial_1*[6]
+
+.names mul0:partial_1*[7]
+
+.names mul0:partial_1*[8]
+
+.names mul0:partial_1*[9]
+
+.names mul0:partial_2*[0]
+
+.names mul0:partial_2*[1]
+
+.names b[0] a[2] mul0:partial_2*[2]
+11 1
+
+.names b[1] a[2] mul0:partial_2*[3]
+11 1
+
+.names b[2] a[2] mul0:partial_2*[4]
+11 1
+
+.names b[3] a[2] mul0:partial_2*[5]
+11 1
+
+.names b[4] a[2] mul0:partial_2*[6]
+11 1
+
+.names mul0:partial_2*[7]
+
+.names mul0:partial_2*[8]
+
+.names mul0:partial_2*[9]
+
+.names mul0:partial_3*[0]
+
+.names mul0:partial_3*[1]
+
+.names mul0:partial_3*[2]
+
+.names b[0] a[3] mul0:partial_3*[3]
+11 1
+
+.names b[1] a[3] mul0:partial_3*[4]
+11 1
+
+.names b[2] a[3] mul0:partial_3*[5]
+11 1
+
+.names b[3] a[3] mul0:partial_3*[6]
+11 1
+
+.names b[4] a[3] mul0:partial_3*[7]
+11 1
+
+.names mul0:partial_3*[8]
+
+.names mul0:partial_3*[9]
+
+.names mul0:partial_4*[0]
+
+.names mul0:partial_4*[1]
+
+.names mul0:partial_4*[2]
+
+.names mul0:partial_4*[3]
+
+.names b[0] a[4] mul0:partial_4*[4]
+11 1
+
+.names b[1] a[4] mul0:partial_4*[5]
+11 1
+
+.names b[2] a[4] mul0:partial_4*[6]
+11 1
+
+.names b[3] a[4] mul0:partial_4*[7]
+11 1
+
+.names b[4] a[4] mul0:partial_4*[8]
+11 1
+
+.names mul0:partial_4*[9]
+
+.names add70_fa_x0 mul0_mt_0cin mul0_mt_0[0]
+10 1
+01 1
+
+.names add70_fa_x1 add70_c1 mul0_mt_0[1]
+10 1
+01 1
+
+.names add70_fa_x2 add70_c2 mul0_mt_0[2]
+10 1
+01 1
+
+.names add70_fa_x3 add70_c3 mul0_mt_0[3]
+10 1
+01 1
+
+.names add70_fa_x4 add70_c4 mul0_mt_0[4]
+10 1
+01 1
+
+.names add70_fa_x5 add70_c5 mul0_mt_0[5]
+10 1
+01 1
+
+.names add70_fa_x6 add70_c6 mul0_mt_0[6]
+10 1
+01 1
+
+.names add70_fa_x7 add70_c7 mul0_mt_0[7]
+10 1
+01 1
+
+.names add70_fa_x8 add70_c8 mul0_mt_0[8]
+10 1
+01 1
+
+.names add70_fa_x9 add70_c9 mul0_mt_0[9]
+10 1
+01 1
+
+.names mul0_mt_0cin
+
+.names add70_fa_sa9 add70_fa_ia9 mul0_mt_0cout
+-1 1
+1- 1
+
+.names add121_fa_x0 mul0_mt_1cin mul0_mt_1[0]
+10 1
+01 1
+
+.names add121_fa_x1 add121_c1 mul0_mt_1[1]
+10 1
+01 1
+
+.names add121_fa_x2 add121_c2 mul0_mt_1[2]
+10 1
+01 1
+
+.names add121_fa_x3 add121_c3 mul0_mt_1[3]
+10 1
+01 1
+
+.names add121_fa_x4 add121_c4 mul0_mt_1[4]
+10 1
+01 1
+
+.names add121_fa_x5 add121_c5 mul0_mt_1[5]
+10 1
+01 1
+
+.names add121_fa_x6 add121_c6 mul0_mt_1[6]
+10 1
+01 1
+
+.names add121_fa_x7 add121_c7 mul0_mt_1[7]
+10 1
+01 1
+
+.names add121_fa_x8 add121_c8 mul0_mt_1[8]
+10 1
+01 1
+
+.names add121_fa_x9 add121_c9 mul0_mt_1[9]
+10 1
+01 1
+
+.names mul0_mt_1cin
+
+.names add121_fa_sa9 add121_fa_ia9 mul0_mt_1cout
+-1 1
+1- 1
+
+.names add172_fa_x0 mul0_mt_2cin mul0_mt_2[0]
+10 1
+01 1
+
+.names add172_fa_x1 add172_c1 mul0_mt_2[1]
+10 1
+01 1
+
+.names add172_fa_x2 add172_c2 mul0_mt_2[2]
+10 1
+01 1
+
+.names add172_fa_x3 add172_c3 mul0_mt_2[3]
+10 1
+01 1
+
+.names add172_fa_x4 add172_c4 mul0_mt_2[4]
+10 1
+01 1
+
+.names add172_fa_x5 add172_c5 mul0_mt_2[5]
+10 1
+01 1
+
+.names add172_fa_x6 add172_c6 mul0_mt_2[6]
+10 1
+01 1
+
+.names add172_fa_x7 add172_c7 mul0_mt_2[7]
+10 1
+01 1
+
+.names add172_fa_x8 add172_c8 mul0_mt_2[8]
+10 1
+01 1
+
+.names add172_fa_x9 add172_c9 mul0_mt_2[9]
+10 1
+01 1
+
+.names mul0_mt_2cin
+
+.names add172_fa_sa9 add172_fa_ia9 mul0_mt_2cout
+-1 1
+1- 1
+
+.names add223_fa_x0 mul0_mt_3cin mul0_mt_3[0]
+10 1
+01 1
+
+.names add223_fa_x1 add223_c1 mul0_mt_3[1]
+10 1
+01 1
+
+.names add223_fa_x2 add223_c2 mul0_mt_3[2]
+10 1
+01 1
+
+.names add223_fa_x3 add223_c3 mul0_mt_3[3]
+10 1
+01 1
+
+.names add223_fa_x4 add223_c4 mul0_mt_3[4]
+10 1
+01 1
+
+.names add223_fa_x5 add223_c5 mul0_mt_3[5]
+10 1
+01 1
+
+.names add223_fa_x6 add223_c6 mul0_mt_3[6]
+10 1
+01 1
+
+.names add223_fa_x7 add223_c7 mul0_mt_3[7]
+10 1
+01 1
+
+.names add223_fa_x8 add223_c8 mul0_mt_3[8]
+10 1
+01 1
+
+.names add223_fa_x9 add223_c9 mul0_mt_3[9]
+10 1
+01 1
+
+.names mul0_mt_3cin
+
+.names add223_fa_sa9 add223_fa_ia9 mul0_mt_3cout
+-1 1
+1- 1
+
+.names mul0_mt_3[0] s[0]
+1 1
+
+.names mul0_mt_3[1] s[1]
+1 1
+
+.names mul0_mt_3[2] s[2]
+1 1
+
+.names mul0_mt_3[3] s[3]
+1 1
+
+.names mul0_mt_3[4] s[4]
+1 1
+
+.names mul0_mt_3[5] s[5]
+1 1
+
+.names mul0_mt_3[6] s[6]
+1 1
+
+.names mul0_mt_3[7] s[7]
+1 1
+
+.names mul0_mt_3[8] s[8]
+1 1
+
+.names mul0_mt_3[9] s[9]
+1 1
+
+.end
