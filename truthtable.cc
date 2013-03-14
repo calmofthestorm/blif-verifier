@@ -76,9 +76,9 @@ void TruthTableEntry::generateCode(ostream& out,
   for (decltype(mInputs)::size_type i = 0; i < mInputs.size(); ++i) {
     if (mInputs[i] != TOKENS::NC) {
       if (mInputs[i] == TOKENS::ZERO) {
-        out << "!";
+        out << "~";
       }
-      out << input_names[i] << " && ";
+      out << input_names[i] << " & ";
     }
   }
   out << " -1)";
@@ -94,7 +94,7 @@ void TruthTable::generateCode(const string& name, ostream& out) const {
     for (const auto& entry : mEntries) {
       if (entry.getOutput() == TOKENS::ONE) {
         entry.generateCode(out, mInputs);
-        out << " || ";
+        out << " | ";
       }
     }
     out << " 0); // strategy: naive\n";
