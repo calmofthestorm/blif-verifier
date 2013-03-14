@@ -45,10 +45,17 @@ TruthTable::TruthTable(Tokenizer::LineTokenReader& reader,
   // Keep reading logic lines until we hit something else, and push it back.
   while (reader.isGood()) {
     auto tokens = reader.readLine();
-    if (tokens.size() == 2 &&
-        isValidTTEntry(tokens[0], inputs.size()) &&
-        tokens[0].size() == inputs.size() && tokens[1].size() == 1 &&
-        (tokens[1][0] == TOKENS::ZERO || tokens[1][0] == TOKENS::ONE || tokens[1][0] == TOKENS::NC)) {
+    // TODO: clean this.
+    if (tokens.size() == 1 && inputs.size() == 0 &&
+         (tokens[0][0] == TOKENS::ZERO || tokens[0][0] == TOKENS::ONE ||
+          tokens[0][0] == TOKENS::NC)) {
+      TruthTableEntry tte("", tokens[0][0]);
+      addEntry(tte);
+    } else if (tokens.size() == 2 &&
+               isValidTTEntry(tokens[0], inputs.size()) &&
+               tokens[0].size() == inputs.size() && tokens[1].size() == 1 &&
+               (tokens[1][0] == TOKENS::ZERO || tokens[1][0] == TOKENS::ONE ||
+                tokens[1][0] == TOKENS::NC)) {
       // Is a valid logic line.
       TruthTableEntry tte(tokens[0], tokens[1][0]);
       addEntry(tte);
