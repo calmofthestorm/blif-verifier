@@ -2,6 +2,7 @@
 #define BLIF_VERIFIER_ERROR_H
 
 #include <iosfwd>
+#include <string>
 
 namespace blifverifier {
 
@@ -27,14 +28,14 @@ struct BadInputStreamError : IOError {
 };
 
 struct DuplicateBlockError : ParseError {
-  DuplicateBlockError(int line, const char* block);
+  DuplicateBlockError(int line, const std::string& block);
   void describe(std::ostream& os) const override;
-  const char* mBlock;
+  const std::string mBlock;
 };
 
 struct NamesBlockBeforeHeadersError : ParseError {
-  NamesBlockBeforeHeadersError(int line, const char* block);
-  const char* mMissing;
+  NamesBlockBeforeHeadersError(int line, const std::string& block);
+  const std::string mMissing;
   void describe(std::ostream& os) const override;
 };
 
@@ -43,22 +44,28 @@ struct MalformedTruthTableError : ParseError {
   void describe(std::ostream& os) const override;
 };
 
-struct UnrecognizedSectionError : ParseError {
-  UnrecognizedSectionError(int line, const char* section);
+struct DuplicateTruthTableError : ParseError {
+  DuplicateTruthTableError(int line, const std::string& name);
+  const std::string mName;
   void describe(std::ostream& os) const override;
-  const char* mSection;
+};
+
+struct UnrecognizedSectionError : ParseError {
+  UnrecognizedSectionError(int line, const std::string& section);
+  void describe(std::ostream& os) const override;
+  const std::string mSection;
 };
 
 struct MissingLogicDependencyError : LogicError {
-  MissingLogicDependencyError(const char* tt, const char* name);
-  const char* mTruthtable;
-  const char* mInput;
+  MissingLogicDependencyError(const std::string& tt, const std::string& name);
+  const std::string mTruthtable;
+  const std::string mInput;
   void describe(std::ostream& os) const override;
 };
 
 struct UndefinedPrimaryOutputError : LogicError {
-  UndefinedPrimaryOutputError(const char* name);
-  const char* mOutput;
+  UndefinedPrimaryOutputError(const std::string& name);
+  const std::string mOutput;
   void describe(std::ostream& os) const override;
 };
 

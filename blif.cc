@@ -100,7 +100,9 @@ BLIF::BLIF(istream& input)
       }
 
       string name = registerLiteral(*(tokens.end() - 1));
-      assert(mTruthTables.find(name) == mTruthTables.end());
+      if (mTruthTables.find(name) != mTruthTables.end()) {
+        throw DuplicateTruthTableError(reader.getRawLineNumber(), *(tokens.end() - 1));
+      }
 
       auto kind = (outputs.find(name) != outputs.end() ?
                    TruthTable::TTKind::OUTPUT :
@@ -183,9 +185,7 @@ string BLIF::registerLiteral(const string& lit, const string& arrayName,
                              int arrayIndex) {
   std::ostringstream sstr;
   sstr << arrayName << "[" << arrayIndex << "]";
-  if (mLiterals.find(sstr.str()) != mLiterals.end()) {
-    throw DuplicateLiteralError(sstr.str());
-  }
+  assert(mLiterals.find(sstr.str()) == mLiterals.end());
   mLiterals[lit] = sstr.str();
   mLiteralsReverse[sstr.str()] = lit;
   return mLiterals[lit];

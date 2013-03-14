@@ -49,13 +49,12 @@ int main(int argc, char* argv[]) {
   int i = 0;
   BLIF circuit0(ifstream(argv[++i]));
   BLIF circuit1(ifstream(argv[++i]));
-  ofstream outfile(argv[++i]);
 
   // Check if the two circuits are not possibly equivalent (different inputs,
-  // etc).
-  if (circuit0.triviallyNotEquivalent(circuit1, cout)) {
-    return 2;
-  }
+  // etc). Still generate a verifier.
+  circuit0.triviallyNotEquivalent(circuit1, cout);
+
+  ofstream outfile(argv[++i]);
 
   // Libraries
   outfile << "#include <stdlib.h>\n#include <stdarg.h>\n#include <stdio.h>\n\n";
