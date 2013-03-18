@@ -1,0 +1,151 @@
+.model adder
+
+.inputs a[0] a[1] a[2] a[3] a[4] a[5] a[6] a[7] b[0] b[1] b[2] b[3] b[4] b[5] b[6] b[7] cin 
+
+.outputs cout s[0] s[1] s[2] s[3] s[4] s[5] s[6] s[7] 
+
+.names add0_fa_sa0 add0_fa_ia0 add0_c1
+-1 1
+1- 1
+
+.names add0_fa_sa1 add0_fa_ia1 add0_c2
+-1 1
+1- 1
+
+.names add0_fa_sa2 add0_fa_ia2 add0_c3
+-1 1
+1- 1
+
+.names add0_fa_sa3 add0_fa_ia3 add0_c4
+-1 1
+1- 1
+
+.names add0_fa_sa4 add0_fa_ia4 add0_c5
+-1 1
+1- 1
+
+.names add0_fa_sa5 add0_fa_ia5 add0_c6
+-1 1
+1- 1
+
+.names add0_fa_sa6 add0_fa_ia6 add0_c7
+-1 1
+1- 1
+
+.names a[0] b[0] add0_fa_ia0
+11 1
+
+.names a[1] b[1] add0_fa_ia1
+11 1
+
+.names a[2] b[2] add0_fa_ia2
+11 1
+
+.names a[3] b[3] add0_fa_ia3
+11 1
+
+.names a[4] b[4] add0_fa_ia4
+11 1
+
+.names a[5] b[5] add0_fa_ia5
+11 1
+
+.names a[6] b[6] add0_fa_ia6
+11 1
+
+.names a[7] b[7] add0_fa_ia7
+11 1
+
+.names add0_fa_x0 cin add0_fa_sa0
+11 1
+
+.names add0_fa_x1 add0_c1 add0_fa_sa1
+11 1
+
+.names add0_fa_x2 add0_c2 add0_fa_sa2
+11 1
+
+.names add0_fa_x3 add0_c3 add0_fa_sa3
+11 1
+
+.names add0_fa_x4 add0_c4 add0_fa_sa4
+11 1
+
+.names add0_fa_x5 add0_c5 add0_fa_sa5
+11 1
+
+.names add0_fa_x6 add0_c6 add0_fa_sa6
+11 1
+
+.names add0_fa_x7 add0_c7 add0_fa_sa7
+11 1
+
+.names a[0] b[0] add0_fa_x0
+10 1
+01 1
+
+.names a[1] b[1] add0_fa_x1
+10 1
+01 1
+
+.names a[2] b[2] add0_fa_x2
+10 1
+01 1
+
+.names a[3] b[3] add0_fa_x3
+10 1
+01 1
+
+.names a[4] b[4] add0_fa_x4
+10 1
+01 1
+
+.names a[5] b[5] add0_fa_x5
+10 1
+01 1
+
+.names a[6] b[6] add0_fa_x6
+10 1
+01 1
+
+.names a[7] b[7] add0_fa_x7
+10 1
+01 1
+
+.names add0_fa_sa7 add0_fa_ia7 cout
+-1 1
+1- 1
+
+.names add0_fa_x0 cin s[0]
+10 1
+01 1
+
+.names add0_fa_x1 add0_c1 s[1]
+10 1
+01 1
+
+.names add0_fa_x2 add0_missing s[2]
+10 1
+01 1
+
+.names add0_fa_x3 add0_c3 s[3]
+10 1
+01 1
+
+.names add0_fa_x4 add0_c4 s[4]
+10 1
+01 1
+
+.names add0_fa_x5 add0_c5 s[5]
+10 1
+01 1
+
+.names add0_fa_x6 add0_c6 s[6]
+10 1
+01 1
+
+.names add0_fa_x7 add0_c7 s[7]
+10 1
+01 1
+
+.end

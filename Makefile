@@ -23,6 +23,30 @@ coverage: CPPFLAGS += --coverage -O0
 coverage: buildinternal
 
 test: clean coverage
+	echo "*** Testing attempt to read non-existing file. ***"
+	! ./blif-verifier test/does_not_exist.blif add8.blif a.c
+
+	echo "*** Testing bad dependencies ***"
+	! ./blif-verifier test/add8.blif test/add8_baddep.blif a.c
+
+	echo "*** Testing bad section ***"
+	! ./blif-verifier test/add8.blif test/add8_badsection.blif a.c
+
+	echo "*** Testing dupe truth table ***"
+	! ./blif-verifier test/add8_dupett.blif test/add8.blif a.c
+
+	echo "*** Testing duplicate block ***"
+	! ./blif-verifier test/add8_duplicateblock.blif test/add8.blif a.c
+
+	echo "*** Testing names early 1 ***"
+	! ./blif-verifier test/add8_namesearly1.blif test/add8.blif a.c
+
+	echo "*** Testing names early 2 ***"
+	! ./blif-verifier test/add8_namesearly2.blif test/add8.blif a.c
+
+	echo "*** Testing undefined po ***"
+	! ./blif-verifier test/add8_undefpo.blif test/add8.blif a.c
+
 	./blif-verifier and16.blif and16.blif a.c 2> /dev/null > /dev/null || true
 	gcc harness.c a.c -o verifier -lm
 	echo "*** Testing and16.blif == and16.blif ***"
@@ -72,6 +96,20 @@ test: clean coverage
 	gcov -l -s c++/  -s /usr/include -r -f ${FILES} ${HEADERS} | tail -n 1
 	rm -f verifier
 
+	./blif-verifier test/log.blif test/log.blif a.c 2> /dev/null > /dev/null || true
+	gcc harness.c a.c -o verifier -lm
+	echo "*** Testing log.blif == log.blif ***"
+	./verifier > /dev/null
+	gcov -l -s c++/  -s /usr/include -r -f ${FILES} ${HEADERS} | tail -n 1
+	rm -f verifier
+
+	./blif-verifier test/log.blif test/log_bad.blif a.c 2> /dev/null > /dev/null || true
+	gcc harness.c a.c -o verifier -lm
+	echo "*** Testing log.blif != log_bad.blif ***"
+	! ./verifier > /dev/null
+	gcov -l -s c++/  -s /usr/include -r -f ${FILES} ${HEADERS} | tail -n 1
+	rm -f verifier
+
 	gcov -l -r -f ${FILES} ${HEADERS} > coverage.report
 	lcov --capture --directory . --output-file coverage.info && genhtml coverage.info || echo "lcov not installed."
 
@@ -79,7 +117,7 @@ buildinternal: ${OBJECTS}
 	g++ $(CPPFLAGS) ${OBJECTS} -o blif-verifier
 
 clean:
-	\rm -f ${OBJECTS} blif-verifier
+	\rm -f ${OBJECTS} blif-verifier *.gcov *.gcda *.gcno
 
 %.o : %.cc
 	g++ $(CPPFLAGS) -c $< -o $@

@@ -1,0 +1,1141 @@
+.model absolutediff
+
+.inputs a[0] a[10] a[11] a[12] a[13] a[14] a[15] a[1] a[2] a[3] a[4] a[5] a[6] a[7] a[8] a[9] b[0] b[10] b[11] b[12] b[13] b[14] b[15] b[1] b[2] b[3] b[4] b[5] b[6] b[7] b[8] b[9] 
+
+.outputs cout s[0] s[10] s[11] s[12] s[13] s[14] s[15] s[1] s[2] s[3] s[4] s[5] s[6] s[7] s[8] s[9] 
+
+.names a[15] a[16]
+1 1
+
+.names add165_fa_x0 sub50_add_cin abs0[0]
+10 1
+01 1
+
+.names add165_fa_x10 add165_c10 abs0[10]
+10 1
+01 1
+
+.names add165_fa_x11 add165_c11 abs0[11]
+10 1
+01 1
+
+.names add165_fa_x12 add165_c12 abs0[12]
+10 1
+01 1
+
+.names add165_fa_x13 add165_c13 abs0[13]
+10 1
+01 1
+
+.names add165_fa_x14 add165_c14 abs0[14]
+10 1
+01 1
+
+.names add165_fa_x15 add165_c15 abs0[15]
+10 1
+01 1
+
+.names add165_fa_x16 add165_c16 abs0[16]
+10 1
+01 1
+
+.names add165_fa_x1 add165_c1 abs0[1]
+10 1
+01 1
+
+.names add165_fa_x2 add165_c2 abs0[2]
+10 1
+01 1
+
+.names add165_fa_x3 add165_c3 abs0[3]
+10 1
+01 1
+
+.names add165_fa_x4 add165_c4 abs0[4]
+10 1
+01 1
+
+.names add165_fa_x5 add165_c5 abs0[5]
+10 1
+01 1
+
+.names add165_fa_x6 add165_c6 abs0[6]
+10 1
+01 1
+
+.names add165_fa_x7 add165_c7 abs0[7]
+10 1
+01 1
+
+.names add165_fa_x8 add165_c8 abs0[8]
+10 1
+01 1
+
+.names add165_fa_x9 add165_c9 abs0[9]
+10 1
+01 1
+
+.names abs0[0] abs0_neg[0]
+1 1
+
+.names tcl_and1344 tcl_and2345 abs0_neg[10]
+-1 1
+1- 1
+
+.names tcl_and1347 tcl_and2348 abs0_neg[11]
+-1 1
+1- 1
+
+.names tcl_and1350 tcl_and2351 abs0_neg[12]
+-1 1
+1- 1
+
+.names tcl_and1353 tcl_and2354 abs0_neg[13]
+-1 1
+1- 1
+
+.names tcl_and1356 tcl_and2357 abs0_neg[14]
+-1 1
+1- 1
+
+.names tcl_and1359 tcl_and2360 abs0_neg[15]
+-1 1
+1- 1
+
+.names tcl_and1362 tcl_and2363 abs0_neg[16]
+-1 1
+1- 1
+
+.names tcl_and1317 tcl_and2318 abs0_neg[1]
+-1 1
+1- 1
+
+.names tcl_and1320 tcl_and2321 abs0_neg[2]
+-1 1
+1- 1
+
+.names tcl_and1323 tcl_and2324 abs0_neg[3]
+-1 1
+1- 1
+
+.names tcl_and1326 tcl_and2327 abs0_neg[4]
+-1 1
+1- 1
+
+.names tcl_and1329 tcl_and2330 abs0_neg[5]
+-1 1
+1- 1
+
+.names tcl_and1332 tcl_and2333 abs0_neg[6]
+-1 1
+1- 1
+
+.names tcl_and1335 tcl_and2336 abs0_neg[7]
+-1 1
+1- 1
+
+.names tcl_and1338 tcl_and2339 abs0_neg[8]
+-1 1
+1- 1
+
+.names tcl_and1341 tcl_and2342 abs0_neg[9]
+-1 1
+1- 1
+
+.names abs0zero
+
+.names add165_fa_sa0 add165_fa_ia0 add165_c1
+-1 1
+1- 1
+
+.names add165_fa_sa9 add165_fa_ia9 add165_c10
+-1 1
+1- 1
+
+.names add165_fa_sa10 add165_fa_ia10 add165_c11
+-1 1
+1- 1
+
+.names add165_fa_sa11 add165_fa_ia11 add165_c12
+-1 1
+1- 1
+
+.names add165_fa_sa12 add165_fa_ia12 add165_c13
+-1 1
+1- 1
+
+.names add165_fa_sa13 add165_fa_ia13 add165_c14
+-1 1
+1- 1
+
+.names add165_fa_sa14 add165_fa_ia14 add165_c15
+-1 1
+1- 1
+
+.names add165_fa_sa15 add165_fa_ia15 add165_c16
+-1 1
+1- 1
+
+.names add165_fa_sa1 add165_fa_ia1 add165_c2
+-1 1
+1- 1
+
+.names add165_fa_sa2 add165_fa_ia2 add165_c3
+-1 1
+1- 1
+
+.names add165_fa_sa3 add165_fa_ia3 add165_c4
+-1 1
+1- 1
+
+.names add165_fa_sa4 add165_fa_ia4 add165_c5
+-1 1
+1- 1
+
+.names add165_fa_sa5 add165_fa_ia5 add165_c6
+-1 1
+1- 1
+
+.names add165_fa_sa6 add165_fa_ia6 add165_c7
+-1 1
+1- 1
+
+.names add165_fa_sa7 add165_fa_ia7 add165_c8
+-1 1
+1- 1
+
+.names add165_fa_sa8 add165_fa_ia8 add165_c9
+-1 1
+1- 1
+
+.names sub50tcl[0] a[0] add165_fa_ia0
+11 1
+
+.names sub50tcl[1] a[1] add165_fa_ia1
+11 1
+
+.names sub50tcl[10] a[10] add165_fa_ia10
+11 1
+
+.names sub50tcl[11] a[11] add165_fa_ia11
+11 1
+
+.names sub50tcl[12] a[12] add165_fa_ia12
+11 1
+
+.names sub50tcl[13] a[13] add165_fa_ia13
+11 1
+
+.names sub50tcl[14] a[14] add165_fa_ia14
+11 1
+
+.names sub50tcl[15] a[15] add165_fa_ia15
+11 1
+
+.names sub50tcl[16] a[16] add165_fa_ia16
+11 1
+
+.names sub50tcl[2] a[2] add165_fa_ia2
+11 1
+
+.names sub50tcl[3] a[3] add165_fa_ia3
+11 1
+
+.names sub50tcl[4] a[4] add165_fa_ia4
+11 1
+
+.names sub50tcl[5] a[5] add165_fa_ia5
+11 1
+
+.names sub50tcl[6] a[6] add165_fa_ia6
+11 1
+
+.names sub50tcl[7] a[7] add165_fa_ia7
+11 1
+
+.names sub50tcl[8] a[8] add165_fa_ia8
+11 1
+
+.names sub50tcl[9] a[9] add165_fa_ia9
+11 1
+
+.names add165_fa_x0 sub50_add_cin add165_fa_sa0
+11 1
+
+.names add165_fa_x1 add165_c1 add165_fa_sa1
+11 1
+
+.names add165_fa_x10 add165_c10 add165_fa_sa10
+11 1
+
+.names add165_fa_x11 add165_c11 add165_fa_sa11
+11 1
+
+.names add165_fa_x12 add165_c12 add165_fa_sa12
+11 1
+
+.names add165_fa_x13 add165_c13 add165_fa_sa13
+11 1
+
+.names add165_fa_x14 add165_c14 add165_fa_sa14
+11 1
+
+.names add165_fa_x15 add165_c15 add165_fa_sa15
+11 1
+
+.names add165_fa_x16 add165_c16 add165_fa_sa16
+11 1
+
+.names add165_fa_x2 add165_c2 add165_fa_sa2
+11 1
+
+.names add165_fa_x3 add165_c3 add165_fa_sa3
+11 1
+
+.names add165_fa_x4 add165_c4 add165_fa_sa4
+11 1
+
+.names add165_fa_x5 add165_c5 add165_fa_sa5
+11 1
+
+.names add165_fa_x6 add165_c6 add165_fa_sa6
+11 1
+
+.names add165_fa_x7 add165_c7 add165_fa_sa7
+11 1
+
+.names add165_fa_x8 add165_c8 add165_fa_sa8
+11 1
+
+.names add165_fa_x9 add165_c9 add165_fa_sa9
+11 1
+
+.names sub50tcl[0] a[0] add165_fa_x0
+10 1
+01 1
+
+.names sub50tcl[1] a[1] add165_fa_x1
+10 1
+01 1
+
+.names sub50tcl[10] a[10] add165_fa_x10
+10 1
+01 1
+
+.names sub50tcl[11] a[11] add165_fa_x11
+10 1
+01 1
+
+.names sub50tcl[12] a[12] add165_fa_x12
+10 1
+01 1
+
+.names sub50tcl[13] a[13] add165_fa_x13
+10 1
+01 1
+
+.names sub50tcl[14] a[14] add165_fa_x14
+10 1
+01 1
+
+.names sub50tcl[15] a[15] add165_fa_x15
+10 1
+01 1
+
+.names sub50tcl[16] a[16] add165_fa_x16
+10 1
+01 1
+
+.names sub50tcl[2] a[2] add165_fa_x2
+10 1
+01 1
+
+.names sub50tcl[3] a[3] add165_fa_x3
+10 1
+01 1
+
+.names sub50tcl[4] a[4] add165_fa_x4
+10 1
+01 1
+
+.names sub50tcl[5] a[5] add165_fa_x5
+10 1
+01 1
+
+.names sub50tcl[6] a[6] add165_fa_x6
+10 1
+01 1
+
+.names sub50tcl[7] a[7] add165_fa_x7
+10 1
+01 1
+
+.names sub50tcl[8] a[8] add165_fa_x8
+10 1
+01 1
+
+.names sub50tcl[9] a[9] add165_fa_x9
+10 1
+01 1
+
+.names b[15] b[16]
+1 1
+
+.names abs0[16] abs0zero abs0[16] abs0_neg[16] abs0zero abs0zero cout
+001--- 1
+10-1-- 1
+01--1- 1
+11---1 1
+
+.names abs0[0] neg251_inv0
+0 1
+
+.names abs0[1] neg251_inv1
+0 1
+
+.names abs0[10] neg251_inv10
+0 1
+
+.names abs0[11] neg251_inv11
+0 1
+
+.names abs0[12] neg251_inv12
+0 1
+
+.names abs0[13] neg251_inv13
+0 1
+
+.names abs0[14] neg251_inv14
+0 1
+
+.names abs0[15] neg251_inv15
+0 1
+
+.names abs0[16] neg251_inv16
+0 1
+
+.names abs0[2] neg251_inv2
+0 1
+
+.names abs0[3] neg251_inv3
+0 1
+
+.names abs0[4] neg251_inv4
+0 1
+
+.names abs0[5] neg251_inv5
+0 1
+
+.names abs0[6] neg251_inv6
+0 1
+
+.names abs0[7] neg251_inv7
+0 1
+
+.names abs0[8] neg251_inv8
+0 1
+
+.names abs0[9] neg251_inv9
+0 1
+
+.names neg251_inv1 neg251_inv0 neg251btree285
+11 1
+
+.names neg251_inv3 neg251_inv2 neg251btree287
+11 1
+
+.names neg251btree287 neg251btree285 neg251btree288
+11 1
+
+.names neg251_inv5 neg251_inv4 neg251btree290
+11 1
+
+.names neg251_inv7 neg251_inv6 neg251btree294
+11 1
+
+.names neg251btree294 neg251btree290 neg251btree295
+11 1
+
+.names neg251btree295 neg251btree288 neg251btree296
+11 1
+
+.names neg251_inv9 neg251_inv8 neg251btree298
+11 1
+
+.names neg251_inv11 neg251_inv10 neg251btree302
+11 1
+
+.names neg251btree302 neg251btree298 neg251btree303
+11 1
+
+.names neg251_inv13 neg251_inv12 neg251btree307
+11 1
+
+.names neg251_inv15 neg251_inv14 neg251btree313
+11 1
+
+.names neg251btree313 neg251btree307 neg251btree314
+11 1
+
+.names neg251btree314 neg251btree303 neg251btree315
+11 1
+
+.names neg251btree315 neg251btree296 neg251btree316
+11 1
+
+.names neg251_inv2 neg251btree285 neg251ntree286
+11 1
+
+.names neg251_inv4 neg251btree288 neg251ntree289
+11 1
+
+.names neg251btree290 neg251btree288 neg251ntree291
+11 1
+
+.names neg251_inv6 neg251btree290 neg251ntree292
+11 1
+
+.names neg251btree288 neg251ntree292 neg251ntree293
+11 1
+
+.names neg251_inv8 neg251btree296 neg251ntree297
+11 1
+
+.names neg251btree298 neg251btree296 neg251ntree299
+11 1
+
+.names neg251_inv10 neg251btree298 neg251ntree300
+11 1
+
+.names neg251btree296 neg251ntree300 neg251ntree301
+11 1
+
+.names neg251btree303 neg251btree296 neg251ntree304
+11 1
+
+.names neg251_inv12 neg251btree303 neg251ntree305
+11 1
+
+.names neg251btree296 neg251ntree305 neg251ntree306
+11 1
+
+.names neg251btree307 neg251btree303 neg251ntree308
+11 1
+
+.names neg251btree296 neg251ntree308 neg251ntree309
+11 1
+
+.names neg251_inv14 neg251btree307 neg251ntree310
+11 1
+
+.names neg251btree303 neg251btree296 neg251ntree311
+11 1
+
+.names neg251ntree310 neg251ntree311 neg251ntree312
+11 1
+
+.names b[0] neg50_inv0
+0 1
+
+.names b[1] neg50_inv1
+0 1
+
+.names b[10] neg50_inv10
+0 1
+
+.names b[11] neg50_inv11
+0 1
+
+.names b[12] neg50_inv12
+0 1
+
+.names b[13] neg50_inv13
+0 1
+
+.names b[14] neg50_inv14
+0 1
+
+.names b[15] neg50_inv15
+0 1
+
+.names b[16] neg50_inv16
+0 1
+
+.names b[2] neg50_inv2
+0 1
+
+.names b[3] neg50_inv3
+0 1
+
+.names b[4] neg50_inv4
+0 1
+
+.names b[5] neg50_inv5
+0 1
+
+.names b[6] neg50_inv6
+0 1
+
+.names b[7] neg50_inv7
+0 1
+
+.names b[8] neg50_inv8
+0 1
+
+.names b[9] neg50_inv9
+0 1
+
+.names neg50_inv11 neg50_inv10 neg50btree101
+11 1
+
+.names neg50btree101 neg50btree97 neg50btree102
+11 1
+
+.names neg50_inv13 neg50_inv12 neg50btree106
+11 1
+
+.names neg50_inv15 neg50_inv14 neg50btree112
+11 1
+
+.names neg50btree112 neg50btree106 neg50btree113
+11 1
+
+.names neg50btree113 neg50btree102 neg50btree114
+11 1
+
+.names neg50btree114 neg50btree95 neg50btree115
+11 1
+
+.names neg50_inv1 neg50_inv0 neg50btree84
+11 1
+
+.names neg50_inv3 neg50_inv2 neg50btree86
+11 1
+
+.names neg50btree86 neg50btree84 neg50btree87
+11 1
+
+.names neg50_inv5 neg50_inv4 neg50btree89
+11 1
+
+.names neg50_inv7 neg50_inv6 neg50btree93
+11 1
+
+.names neg50btree93 neg50btree89 neg50btree94
+11 1
+
+.names neg50btree94 neg50btree87 neg50btree95
+11 1
+
+.names neg50_inv9 neg50_inv8 neg50btree97
+11 1
+
+.names neg50btree95 neg50ntree99 neg50ntree100
+11 1
+
+.names neg50btree102 neg50btree95 neg50ntree103
+11 1
+
+.names neg50_inv12 neg50btree102 neg50ntree104
+11 1
+
+.names neg50btree95 neg50ntree104 neg50ntree105
+11 1
+
+.names neg50btree106 neg50btree102 neg50ntree107
+11 1
+
+.names neg50btree95 neg50ntree107 neg50ntree108
+11 1
+
+.names neg50_inv14 neg50btree106 neg50ntree109
+11 1
+
+.names neg50btree102 neg50btree95 neg50ntree110
+11 1
+
+.names neg50ntree109 neg50ntree110 neg50ntree111
+11 1
+
+.names neg50_inv2 neg50btree84 neg50ntree85
+11 1
+
+.names neg50_inv4 neg50btree87 neg50ntree88
+11 1
+
+.names neg50btree89 neg50btree87 neg50ntree90
+11 1
+
+.names neg50_inv6 neg50btree89 neg50ntree91
+11 1
+
+.names neg50btree87 neg50ntree91 neg50ntree92
+11 1
+
+.names neg50_inv8 neg50btree95 neg50ntree96
+11 1
+
+.names neg50btree97 neg50btree95 neg50ntree98
+11 1
+
+.names neg50_inv10 neg50btree97 neg50ntree99
+11 1
+
+.names neg50_inv0 not_andtree118
+0 1
+
+.names neg50btree84 not_andtree121
+0 1
+
+.names neg50ntree85 not_andtree124
+0 1
+
+.names neg50btree87 not_andtree127
+0 1
+
+.names neg50ntree88 not_andtree130
+0 1
+
+.names neg50ntree90 not_andtree133
+0 1
+
+.names neg50ntree92 not_andtree136
+0 1
+
+.names neg50btree95 not_andtree139
+0 1
+
+.names neg50ntree96 not_andtree142
+0 1
+
+.names neg50ntree98 not_andtree145
+0 1
+
+.names neg50ntree100 not_andtree148
+0 1
+
+.names neg50ntree103 not_andtree151
+0 1
+
+.names neg50ntree105 not_andtree154
+0 1
+
+.names neg50ntree108 not_andtree157
+0 1
+
+.names neg50ntree111 not_andtree160
+0 1
+
+.names neg50btree115 not_andtree163
+0 1
+
+.names neg251_inv0 not_andtree319
+0 1
+
+.names neg251btree285 not_andtree322
+0 1
+
+.names neg251ntree286 not_andtree325
+0 1
+
+.names neg251btree288 not_andtree328
+0 1
+
+.names neg251ntree289 not_andtree331
+0 1
+
+.names neg251ntree291 not_andtree334
+0 1
+
+.names neg251ntree293 not_andtree337
+0 1
+
+.names neg251btree296 not_andtree340
+0 1
+
+.names neg251ntree297 not_andtree343
+0 1
+
+.names neg251ntree299 not_andtree346
+0 1
+
+.names neg251ntree301 not_andtree349
+0 1
+
+.names neg251ntree304 not_andtree352
+0 1
+
+.names neg251ntree306 not_andtree355
+0 1
+
+.names neg251ntree309 not_andtree358
+0 1
+
+.names neg251ntree312 not_andtree361
+0 1
+
+.names neg251btree316 not_andtree364
+0 1
+
+.names abs0[16] abs0zero abs0[0] abs0_neg[0] abs0zero abs0zero s[0]
+001--- 1
+10-1-- 1
+01--1- 1
+11---1 1
+
+.names abs0[16] abs0zero abs0[10] abs0_neg[10] abs0zero abs0zero s[10]
+001--- 1
+10-1-- 1
+01--1- 1
+11---1 1
+
+.names abs0[16] abs0zero abs0[11] abs0_neg[11] abs0zero abs0zero s[11]
+001--- 1
+10-1-- 1
+01--1- 1
+11---1 1
+
+.names abs0[16] abs0zero abs0[12] abs0_neg[12] abs0zero abs0zero s[12]
+001--- 1
+10-1-- 1
+01--1- 1
+11---1 1
+
+.names abs0[16] abs0zero abs0[13] abs0_neg[13] abs0zero abs0zero s[13]
+001--- 1
+10-1-- 1
+01--1- 1
+11---1 1
+
+.names abs0[16] abs0zero abs0[14] abs0_neg[14] abs0zero abs0zero s[14]
+001--- 1
+10-1-- 1
+01--1- 1
+11---1 1
+
+.names abs0[16] abs0zero abs0[15] abs0_neg[15] abs0zero abs0zero s[15]
+001--- 1
+10-1-- 1
+01--1- 1
+11---1 1
+
+.names abs0[16] abs0zero abs0[1] abs0_neg[1] abs0zero abs0zero s[1]
+001--- 1
+10-1-- 1
+01--1- 1
+11---1 1
+
+.names abs0[16] abs0zero abs0[2] abs0_neg[2] abs0zero abs0zero s[2]
+001--- 1
+10-1-- 1
+01--1- 1
+11---1 1
+
+.names abs0[16] abs0zero abs0[3] abs0_neg[3] abs0zero abs0zero s[3]
+001--- 1
+10-1-- 1
+01--1- 1
+11---1 1
+
+.names abs0[16] abs0zero abs0[4] abs0_neg[4] abs0zero abs0zero s[4]
+001--- 1
+10-1-- 1
+01--1- 1
+11---1 1
+
+.names abs0[16] abs0zero abs0[5] abs0_neg[5] abs0zero abs0zero s[5]
+001--- 1
+10-1-- 1
+01--1- 1
+11---1 1
+
+.names abs0[16] abs0zero abs0[6] abs0_neg[6] abs0zero abs0zero s[6]
+001--- 1
+10-1-- 1
+01--1- 1
+11---1 1
+
+.names abs0[16] abs0zero abs0[7] abs0_neg[7] abs0zero abs0zero s[7]
+001--- 1
+10-1-- 1
+01--1- 1
+11---1 1
+
+.names abs0[16] abs0zero abs0[8] abs0_neg[8] abs0zero abs0zero s[8]
+001--- 1
+10-1-- 1
+01--1- 1
+11---1 1
+
+.names abs0[16] abs0zero abs0[9] abs0_neg[9] abs0zero abs0zero s[9]
+001--- 1
+10-1-- 1
+01--1- 1
+11---1 1
+
+.names sub50_add_cin
+
+.names add165_fa_sa16 add165_fa_ia16 sub50_add_cout
+-1 1
+1- 1
+
+.names b[0] sub50tcl[0]
+1 1
+
+.names tcl_and1143 tcl_and2144 sub50tcl[10]
+-1 1
+1- 1
+
+.names tcl_and1146 tcl_and2147 sub50tcl[11]
+-1 1
+1- 1
+
+.names tcl_and1149 tcl_and2150 sub50tcl[12]
+-1 1
+1- 1
+
+.names tcl_and1152 tcl_and2153 sub50tcl[13]
+-1 1
+1- 1
+
+.names tcl_and1155 tcl_and2156 sub50tcl[14]
+-1 1
+1- 1
+
+.names tcl_and1158 tcl_and2159 sub50tcl[15]
+-1 1
+1- 1
+
+.names tcl_and1161 tcl_and2162 sub50tcl[16]
+-1 1
+1- 1
+
+.names tcl_and1116 tcl_and2117 sub50tcl[1]
+-1 1
+1- 1
+
+.names tcl_and1119 tcl_and2120 sub50tcl[2]
+-1 1
+1- 1
+
+.names tcl_and1122 tcl_and2123 sub50tcl[3]
+-1 1
+1- 1
+
+.names tcl_and1125 tcl_and2126 sub50tcl[4]
+-1 1
+1- 1
+
+.names tcl_and1128 tcl_and2129 sub50tcl[5]
+-1 1
+1- 1
+
+.names tcl_and1131 tcl_and2132 sub50tcl[6]
+-1 1
+1- 1
+
+.names tcl_and1134 tcl_and2135 sub50tcl[7]
+-1 1
+1- 1
+
+.names tcl_and1137 tcl_and2138 sub50tcl[8]
+-1 1
+1- 1
+
+.names tcl_and1140 tcl_and2141 sub50tcl[9]
+-1 1
+1- 1
+
+.names not_andtree118 neg50_inv1 tcl_and1116
+11 1
+
+.names not_andtree121 neg50_inv2 tcl_and1119
+11 1
+
+.names not_andtree124 neg50_inv3 tcl_and1122
+11 1
+
+.names not_andtree127 neg50_inv4 tcl_and1125
+11 1
+
+.names not_andtree130 neg50_inv5 tcl_and1128
+11 1
+
+.names not_andtree133 neg50_inv6 tcl_and1131
+11 1
+
+.names not_andtree136 neg50_inv7 tcl_and1134
+11 1
+
+.names not_andtree139 neg50_inv8 tcl_and1137
+11 1
+
+.names not_andtree142 neg50_inv9 tcl_and1140
+11 1
+
+.names not_andtree145 neg50_inv10 tcl_and1143
+11 1
+
+.names not_andtree148 neg50_inv11 tcl_and1146
+11 1
+
+.names not_andtree151 neg50_inv12 tcl_and1149
+11 1
+
+.names not_andtree154 neg50_inv13 tcl_and1152
+11 1
+
+.names not_andtree157 neg50_inv14 tcl_and1155
+11 1
+
+.names not_andtree160 neg50_inv15 tcl_and1158
+11 1
+
+.names not_andtree163 neg50_inv16 tcl_and1161
+11 1
+
+.names not_andtree319 neg251_inv1 tcl_and1317
+11 1
+
+.names not_andtree322 neg251_inv2 tcl_and1320
+11 1
+
+.names not_andtree325 neg251_inv3 tcl_and1323
+11 1
+
+.names not_andtree328 neg251_inv4 tcl_and1326
+11 1
+
+.names not_andtree331 neg251_inv5 tcl_and1329
+11 1
+
+.names not_andtree334 neg251_inv6 tcl_and1332
+11 1
+
+.names not_andtree337 neg251_inv7 tcl_and1335
+11 1
+
+.names not_andtree340 neg251_inv8 tcl_and1338
+11 1
+
+.names not_andtree343 neg251_inv9 tcl_and1341
+11 1
+
+.names not_andtree346 neg251_inv10 tcl_and1344
+11 1
+
+.names not_andtree349 neg251_inv11 tcl_and1347
+11 1
+
+.names not_andtree352 neg251_inv12 tcl_and1350
+11 1
+
+.names not_andtree355 neg251_inv13 tcl_and1353
+11 1
+
+.names not_andtree358 neg251_inv14 tcl_and1356
+11 1
+
+.names not_andtree361 neg251_inv15 tcl_and1359
+11 1
+
+.names not_andtree364 neg251_inv16 tcl_and1362
+11 1
+
+.names b[1] neg50_inv0 tcl_and2117
+11 1
+
+.names b[2] neg50btree84 tcl_and2120
+11 1
+
+.names b[3] neg50ntree85 tcl_and2123
+11 1
+
+.names b[4] neg50btree87 tcl_and2126
+11 1
+
+.names b[5] neg50ntree88 tcl_and2129
+11 1
+
+.names b[6] neg50ntree90 tcl_and2132
+11 1
+
+.names b[7] neg50ntree92 tcl_and2135
+11 1
+
+.names b[8] neg50btree95 tcl_and2138
+11 1
+
+.names b[9] neg50ntree96 tcl_and2141
+11 1
+
+.names b[10] neg50ntree98 tcl_and2144
+11 1
+
+.names b[11] neg50ntree100 tcl_and2147
+11 1
+
+.names b[12] neg50ntree103 tcl_and2150
+11 1
+
+.names b[13] neg50ntree105 tcl_and2153
+11 1
+
+.names b[14] neg50ntree108 tcl_and2156
+11 1
+
+.names b[15] neg50ntree111 tcl_and2159
+11 1
+
+.names b[16] neg50btree115 tcl_and2162
+11 1
+
+.names abs0[1] neg251_inv0 tcl_and2318
+11 1
+
+.names abs0[2] neg251btree285 tcl_and2321
+11 1
+
+.names abs0[3] neg251ntree286 tcl_and2324
+11 1
+
+.names abs0[4] neg251btree288 tcl_and2327
+11 1
+
+.names abs0[5] neg251ntree289 tcl_and2330
+11 1
+
+.names abs0[6] neg251ntree291 tcl_and2333
+11 1
+
+.names abs0[7] neg251ntree293 tcl_and2336
+11 1
+
+.names abs0[8] neg251btree296 tcl_and2339
+11 1
+
+.names abs0[9] neg251ntree297 tcl_and2342
+11 1
+
+.names abs0[10] neg251ntree299 tcl_and2345
+11 1
+
+.names abs0[11] neg251ntree301 tcl_and2348
+11 1
+
+.names abs0[12] neg251ntree304 tcl_and2351
+11 1
+
+.names abs0[13] neg251ntree306 tcl_and2354
+11 1
+
+.names abs0[14] neg251ntree309 tcl_and2357
+11 1
+
+.names abs0[15] neg251ntree312 tcl_and2360
+11 1
+
+.names abs0[16] neg251btree316 tcl_and2363
+11 1
+
+.end

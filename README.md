@@ -1,7 +1,7 @@
 blif-verifier
 =============
 
-Simple utility that generates C equivalence checkers for two circuits. [Current status: WRITTEN, UNTESTED]
+Simple utility that generates C equivalence checkers for two circuits. [Current status: COMPLETE]
 
 This is a simple program to verify that two combinational circuits expressed in
 a restricted subset of the BLIF format are equivalent by simulating all
@@ -56,7 +56,7 @@ Note that the primary purpose of writing this was to play with all the cool
 new toys in C++11, and so I'm taking the excuse to use them wherever possible.
 
 ISSUES:
-* Code still needs some cleanup (assertions -> exceptions; better messages)
+* Code still needs some cleanup (exceptions -> useful messages)
 * Infinite loop on non-combinational circuits (-> error)
 * Only supports small subset of BLIF.
   (wontfix; it's sufficient for combinational circuits)
