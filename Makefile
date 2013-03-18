@@ -47,65 +47,65 @@ test: clean coverage
 	echo "*** Testing undefined po ***"
 	! ./blif-verifier test/add8_undefpo.blif test/add8.blif a.c
 
-	./blif-verifier and16.blif and16.blif a.c 2> /dev/null > /dev/null || true
+	./blif-verifier test/and16.blif test/and16.blif a.c 2> /dev/null > /dev/null || true
 	gcc harness.c a.c -o verifier -lm
-	echo "*** Testing and16.blif == and16.blif ***"
+	echo "*** Testing test/and16.blif == test/and16.blif ***"
 	./verifier > /dev/null
 	gcov -l -s c++/  -s /usr/include -r -f ${FILES} ${HEADERS} | tail -n 1
 	rm -f verifier
 
-	./blif-verifier and16.blif and32.blif a.c 2> /dev/null > /dev/null || true
+	./blif-verifier test/and16.blif test/and32.blif a.c 2> /dev/null > /dev/null || true
 	gcc harness.c a.c -o verifier -lm
-	echo "*** Testing and16.blif != and32.blif ***"
+	echo "*** Testing test/and16.blif != and32.blif ***"
 	! ./verifier > /dev/null
 	gcov -l -s c++/  -s /usr/include -r -f ${FILES} ${HEADERS} | tail -n 1
 	rm -f verifier
 
-	./blif-verifier mul5.blif mul5_bad.blif a.c 2> /dev/null > /dev/null || true
+	./blif-verifier test/mul5.blif test/mul5_bad.blif a.c 2> /dev/null > /dev/null || true
 	gcc harness.c a.c -o verifier -lm
-	echo "*** Testing mul5.blif != mul5_bad.blif ***"
+	echo "*** Testing test/mul5.blif != test/mul5_bad.blif ***"
 	! ./verifier > /dev/null
 	gcov -l -s c++/  -s /usr/include -r -f ${FILES} ${HEADERS} | tail -n 1
 	rm -f verifier
 
-	./blif-verifier mul5.blif mul5.blif a.c 2> /dev/null > /dev/null || true
+	./blif-verifier test/mul5.blif test/mul5.blif a.c 2> /dev/null > /dev/null || true
 	gcc harness.c a.c -o verifier -lm
-	echo "*** Testing mul5.blif == mul5.blif ***"
+	echo "*** Testing test/mul5.blif == test/mul5.blif ***"
 	./verifier > /dev/null
 	gcov -l -s c++/  -s /usr/include -r -f ${FILES} ${HEADERS} | tail -n 1
 	rm -f verifier
 
-	./blif-verifier mul12.blif mul12_bad.blif a.c 2> /dev/null > /dev/null || true
+	./blif-verifier test/mul12.blif test/mul12_bad.blif a.c 2> /dev/null > /dev/null || true
 	gcc harness.c a.c -o verifier -lm
-	echo "*** Testing mul12.blif != mul12_bad.blif ***"
+	echo "*** Testing test/mul12.blif != test/mul12_bad.blif ***"
 	! ./verifier > /dev/null
 	gcov -l -s c++/  -s /usr/include -r -f ${FILES} ${HEADERS} | tail -n 1
 	rm -f verifier
 
-	./blif-verifier exp.blif exp.blif a.c 2> /dev/null > /dev/null || true
+	./blif-verifier test/exp.blif test/exp.blif a.c 2> /dev/null > /dev/null || true
 	gcc harness.c a.c -o verifier -lm
-	echo "*** Testing exp.blif == exp.blif ***"
+	echo "*** Testing test/exp.blif == test/exp.blif ***"
 	./verifier > /dev/null
 	gcov -l -s c++/  -s /usr/include -r -f ${FILES} ${HEADERS} | tail -n 1
 	rm -f verifier
 
-	./blif-verifier exp.blif exp_bad.blif a.c 2> /dev/null > /dev/null || true
+	./blif-verifier test/exp.blif test/exp_bad.blif a.c 2> /dev/null > /dev/null || true
 	gcc harness.c a.c -o verifier -lm
-	echo "*** Testing exp.blif != exp_bad.blif ***"
+	echo "*** Testing test/exp.blif != test/exp_bad.blif ***"
 	! ./verifier > /dev/null
 	gcov -l -s c++/  -s /usr/include -r -f ${FILES} ${HEADERS} | tail -n 1
 	rm -f verifier
 
 	./blif-verifier test/log.blif test/log.blif a.c 2> /dev/null > /dev/null || true
 	gcc harness.c a.c -o verifier -lm
-	echo "*** Testing log.blif == log.blif ***"
+	echo "*** Testing test/log.blif == test/log.blif ***"
 	./verifier > /dev/null
 	gcov -l -s c++/  -s /usr/include -r -f ${FILES} ${HEADERS} | tail -n 1
 	rm -f verifier
 
 	./blif-verifier test/log.blif test/log_bad.blif a.c 2> /dev/null > /dev/null || true
 	gcc harness.c a.c -o verifier -lm
-	echo "*** Testing log.blif != log_bad.blif ***"
+	echo "*** Testing test/log.blif != test/log_bad.blif ***"
 	! ./verifier > /dev/null
 	gcov -l -s c++/  -s /usr/include -r -f ${FILES} ${HEADERS} | tail -n 1
 	rm -f verifier
