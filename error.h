@@ -39,11 +39,6 @@ struct NamesBlockBeforeHeadersError : ParseError {
   void describe(std::ostream& os) const override;
 };
 
-struct MalformedTruthTableError : ParseError {
-  MalformedTruthTableError(int line);
-  void describe(std::ostream& os) const override;
-};
-
 struct DuplicateTruthTableError : ParseError {
   DuplicateTruthTableError(int line, const std::string& name);
   const std::string mName;

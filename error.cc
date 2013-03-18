@@ -33,13 +33,6 @@ void NamesBlockBeforeHeadersError::describe(ostream& os) const  {
      << "but truth tables are defined at line " << mLine << endl;
 }
 
-MalformedTruthTableError::MalformedTruthTableError(int line)
-  : ParseError(line) { }
-
-void MalformedTruthTableError::describe(ostream& os) const  {
-  os << "Truth table malformed at line " << mLine << endl;
-}
-
 DuplicateTruthTableError::DuplicateTruthTableError(int line,
                                                    const string& name)
   : ParseError(line), mName(name) { }
@@ -63,7 +56,7 @@ MissingLogicDependencyError::MissingLogicDependencyError(const string& tt,
 
 void MissingLogicDependencyError::describe(ostream& os) const  {
   os << "Input " << mInput << " to truth table defining " << mTruthtable
-     << " is neither defined nor a primary input.";
+     << " is neither defined nor a primary input." << endl;
 }
 
 UndefinedPrimaryOutputError::UndefinedPrimaryOutputError(const string& name)
