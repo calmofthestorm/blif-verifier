@@ -3,6 +3,13 @@ blif-verifier
 
 Simple utility that generates C equivalence checkers for two circuits. [Current status: COMPLETE]
 
+To use:
+
+make
+./blif-verifier circuit1.blif circuit2.blif verifier.c
+cc verifier.c harness.c -lm -o verifier
+./verifier
+
 This is a simple program to verify that two combinational circuits expressed in
 a restricted subset of the BLIF format are equivalent by simulating all
 combinations of inputs (brute force). Circuit-SAT is NP-complete, but for many
@@ -55,15 +62,14 @@ action, but this is difficult to implement in a platform-agnostic way.
 Note that the primary purpose of writing this was to play with all the cool
 new toys in C++11, and so I'm taking the excuse to use them wherever possible.
 
-ISSUES:
-* Code still needs some cleanup (exceptions -> useful messages)
+TODO:
 * Infinite loop on non-combinational circuits (-> error)
 * Only supports small subset of BLIF.
   (wontfix; it's sufficient for combinational circuits)
 * BLIF requires that truth tables be unambiguous insofar as input vectors must
   uniquely specify an output. Currently, if an input vector is ambiguous it will
   be treated as 1; I would like this to instead be an error. (-> error)
-* Needs thorough unit and integration test suite.
+* Test/configure build on Windows/Mac
 
 LEGAL:
 This is a hobby project. It is published in the hope of being useful but I make
