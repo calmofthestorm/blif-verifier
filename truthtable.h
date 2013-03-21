@@ -4,6 +4,7 @@
 #include <iosfwd>
 #include <unordered_map>
 #include <unordered_set>
+#include <string>
 #include <vector>
 
 #include "error.h"
@@ -47,8 +48,9 @@ class TruthTable {
     // Special kinds of truth tables.
     enum class TTKind {INPUT, OUTPUT, NORMAL};
 
-    TruthTable(); // Default -- primary input
-    TruthTable(Tokenizer::LineTokenReader& reader, std::vector<std::string>&& inputs, TTKind kind);
+    TruthTable();  // Default -- primary input
+    TruthTable(Tokenizer::LineTokenReader& reader,
+               std::vector<std::string>&& inputs, TTKind kind);
 
     // Add an input to the truth table (not valid for inputs)
     void addInput(const std::string& input);
@@ -56,7 +58,7 @@ class TruthTable {
     // Add an entry to the truth table
     void addEntry(const TruthTableEntry& entry);
 
-    const std::vector<std::string>& getInputs() const;    
+    const std::vector<std::string>& getInputs() const;
 
     // Represents the entire truth table as a C logic expression.
     void generateCode(const std::string& name, std::ostream& out) const;
@@ -75,6 +77,6 @@ class TruthTable {
     TTKind mKind;
 };
 
-} // namespace blifverifier
+}  // namespace blifverifier
 
 #endif

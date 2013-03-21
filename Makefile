@@ -22,6 +22,9 @@ release: buildinternal
 coverage: CPPFLAGS += --coverage -O0
 coverage: buildinternal
 
+lint:
+	cpplint.py *.h *.cc
+
 test: clean coverage
 	echo "*** Testing attempt to read non-existing file. ***"
 	! ./blif-verifier test/does_not_exist.blif add8.blif a.c

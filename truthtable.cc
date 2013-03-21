@@ -1,16 +1,16 @@
-#include <algorithm>
+#include "truthtable.h"
+
 #include <cassert>
-#include <istream>
+
+#include <algorithm>
+#include <iostream>
 #include <iterator>
-#include <ostream>
 #include <sstream>
 #include <stack>
+#include <string>
 #include <vector>
 
 #include "tokenizer.h"
-#include "truthtable.h"
-
-#include <iostream>
 
 using std::istream;
 using std::istringstream;
@@ -76,8 +76,8 @@ char TruthTableEntry::getOutput() const {
   return mOutput;
 }
 
-// TODO: if BLIF truthtable contains a contradiction it will be resolved silently
-// as true.
+// TODO: if BLIF truthtable contains a contradiction it will be resolved
+//       silently as true. This should raise an error as the file is illegal.
 void TruthTableEntry::generateCode(ostream& out,
                                    const vector<string>& input_names) const {
   out << "(";
@@ -123,4 +123,4 @@ const vector<string>& TruthTable::getInputs() const {
   return mInputs;
 }
 
-} // namespace blifverifier
+}  // namespace blifverifier

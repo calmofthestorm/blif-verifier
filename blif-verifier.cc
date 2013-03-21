@@ -1,9 +1,10 @@
 #include <cassert>
+
+#include <fstream>
 #include <iostream>
 #include <iterator>
 #include <map>
 #include <vector>
-#include <fstream>
 
 #include "blif.h"
 
@@ -50,34 +51,35 @@ int main(int argc, char* argv[]) {
     int i = 0;
     BLIF circuit0(ifstream(argv[++i]));
     BLIF circuit1(ifstream(argv[++i]));
-  
+
     // Check if the two circuits are not possibly equivalent (different inputs,
     // etc). Still generate a verifier.
     circuit0.triviallyNotEquivalent(circuit1, cout);
-  
+
     ofstream outfile(argv[++i]);
-  
+
     // Libraries
-    outfile << "#include <stdlib.h>\n#include <stdarg.h>\n#include <stdio.h>\n\n";
-  
+    outfile << "#include <stdlib.h>\n#include <stdarg.h>\n#include <stdio.h>"
+            << "\n\n";
+
     // Verifier common info
     outfile << "const size_t numInputs = " << circuit0.getPrimaryInputs().size()
-            << ";\nconst size_t numOutputs = " << circuit0.getPrimaryOutputs().size()
-            << ";\n";
-  
+            << ";\nconst size_t numOutputs = "
+            << circuit0.getPrimaryOutputs().size() << ";\n";
+
     //TODO: handle more gracefully
     assert(circuit0.getPrimaryInputs().size() > 0);
-  
+
     // Primary input names
     outfile << "const char* const INPUT_NAMES[] = ";
     writeArray(circuit0.getPrimaryInputs(), outfile);
     outfile << ";\n";
-  
+
     // Primary output names
     outfile << "const char* const OUTPUT_NAMES[] = ";
     writeArray(circuit0.getPrimaryOutputs(), outfile);
     outfile << ";\n";
-  
+
     // Write the circuit functions
     circuit0.writeEvaluator(outfile, "circuit0");
     circuit1.writeEvaluator(outfile, "circuit1");

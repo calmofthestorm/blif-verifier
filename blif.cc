@@ -1,18 +1,18 @@
-#include <algorithm>
+#include "blif.h"
+
 #include <cassert>
-#include <istream>
+
+#include <algorithm>
+#include <iostream>
 #include <iterator>
-#include <ostream>
 #include <sstream>
 #include <stack>
+#include <string>
 #include <vector>
 
-#include "blif.h"
 #include "error.h"
-#include "truthtable.h"
 #include "tokenizer.h"
-
-#include <iostream>
+#include "truthtable.h"
 
 namespace blifverifier {
 
@@ -94,14 +94,16 @@ BLIF::BLIF(istream& input)
       if (!read_inputs) {
         throw NamesBlockBeforeHeadersError(reader.getRawLineNumber(), "inputs");
       } else if (!read_outputs) {
-        throw NamesBlockBeforeHeadersError(reader.getRawLineNumber(), "outputs");
+        throw NamesBlockBeforeHeadersError(reader.getRawLineNumber(),
+                                           "outputs");
       } else if (!read_model) {
         throw NamesBlockBeforeHeadersError(reader.getRawLineNumber(), "model");
       }
 
       string name = registerLiteral(*(tokens.end() - 1));
       if (mTruthTables.find(name) != mTruthTables.end()) {
-        throw DuplicateTruthTableError(reader.getRawLineNumber(), *(tokens.end() - 1));
+        throw DuplicateTruthTableError(reader.getRawLineNumber(),
+                                       *(tokens.end() - 1));
       }
 
       auto kind = (outputs.find(name) != outputs.end() ?
@@ -154,7 +156,7 @@ bool BLIF::triviallyNotEquivalent(const BLIF& other, ostream& warn) const {
     warn << "WARNING: Circuits not equivalent; different number of inputs.\n";
     return true;
   }
-  
+
   if (other.mPrimaryInputs != mPrimaryInputs) {
     warn << "WARNING: Circuits not equivalent; input names do not match.\n";
     return true;
@@ -164,7 +166,7 @@ bool BLIF::triviallyNotEquivalent(const BLIF& other, ostream& warn) const {
     warn << "WARNING: Circuits not equivalent; different number of outputs.\n";
     return true;
   }
-  
+
   if (other.mPrimaryOutputs != mPrimaryOutputs) {
     warn << "WARNING: Circuits not equivalent; output names do not match.\n";
     return true;

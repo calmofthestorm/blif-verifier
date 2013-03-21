@@ -17,7 +17,7 @@ class LineTokenReader {
     LineTokenReader();
 
     // Construct a LineTokenReader bound to an input stream.
-    LineTokenReader(std::istream& is);
+    explicit LineTokenReader(std::istream& is);
 
     // Read the next line as a token list.
     void readLine(std::vector<std::string>& tokens);
@@ -50,6 +50,6 @@ class LineTokenReader {
     int mRawLineNumber;
 };
 
-} // namespace Tokenizer
+}  // namespace Tokenizer
 
-#endif // BLIF_VERIFIER_TOKENIZER_H
+#endif  // BLIF_VERIFIER_TOKENIZER_H

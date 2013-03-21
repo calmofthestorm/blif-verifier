@@ -52,7 +52,7 @@ void LineTokenReader::readLine(vector<string>& result) {
     // Remove any comments (tokens that begin with #) and any tokens after them
     // if a comment is found.
     auto comment = std::find_if(result.begin(), result.end(),
-                                [](const string& tok){return tok[0] == '#';});
+                                [](const string& tok) {return tok[0] == '#';});
     result.erase(comment, result.end());
 
     // The vector may now be empty (eg, if the entire line was a comment, blank,
@@ -82,4 +82,4 @@ bool LineTokenReader::isGood() const {
   return mGood && (*mStream);
 }
 
-} // namespace Tokenizer
+}  // namespace Tokenizer

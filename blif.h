@@ -2,6 +2,7 @@
 #define BLIF_VERIFIER_BLIF_H
 
 #include <iosfwd>
+#include <string>
 #include <unordered_map>
 #include <unordered_set>
 #include <vector>
@@ -16,12 +17,13 @@ class BLIF {
     BLIF();
 
     // Reads a BLIF from a stream.
-    BLIF(std::istream& input);
-    BLIF(std::istream&& input);
+    explicit BLIF(std::istream& input);
+    explicit BLIF(std::istream&& input);
 
     // Writes out a C function that implements the BLIF's logic to the
     // provided ostream.
-    void writeEvaluator(std::ostream& output, const std::string& fxn_name) const;
+    void writeEvaluator(std::ostream& output,
+                        const std::string& fxn_name) const;
 
     // Returns a set of the names of the node's inputs.
     const std::vector<std::string>& getPrimaryInputs() const;
@@ -32,14 +34,15 @@ class BLIF {
     // Returns true if the circuits are trivially not equivalent
     // (eg, different inputs) and prints warning messages
     // to the provided stream.
-    bool triviallyNotEquivalent(const BLIF& other, std::ostream& warnings) const;
+    bool triviallyNotEquivalent(const BLIF& other,
+                                std::ostream& warnings) const;
 
   private:
     // Reads a single line from the stream, and returns a vector of strings.
     // Will strip comments denoted by #, and any lines with no tokens.
     static std::vector<std::string> readLineAsTokens(std::istream& input);
 
-    // Generate a unique name for this user node (eg to mitigate naming conflicts)
+    // Generate a unique name for this user node (to resolve naming conflicts)
     std::string registerLiteral(const std::string& lit);
     std::string registerLiteral(const std::string& lit,
                                       const std::string& arrayName,
@@ -61,10 +64,11 @@ class BLIF {
     // Next integer to use for unique generated names.
     int mNextLiteralIndex;
 
-    // Map from node names (truth tables) to the truth tables that represent them.
+    // Map from node names (truth tables) to the truth tables that represent
+    // them.
     std::unordered_map<std::string, TruthTable> mTruthTables;
 };
 
-} // namespace blifverifier
+}  // namespace blifverifier
 
-#endif // BLIF_VERIFIER_BLIF_H
+#endif  // BLIF_VERIFIER_BLIF_H

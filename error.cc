@@ -66,4 +66,4 @@ void UndefinedPrimaryOutputError::describe(ostream& os) const  {
   os << "Primary output " << mOutput << " is never defined." << endl;
 }
 
-} // namespace blifverifier
+}  // namespace blifverifier

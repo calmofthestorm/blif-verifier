@@ -16,7 +16,7 @@ struct Error {
 struct IOError : public Error { };
 
 struct ParseError : public Error {
-  ParseError(int line);
+  explicit ParseError(int line);
   int mLine;
 };
 
@@ -59,11 +59,11 @@ struct MissingLogicDependencyError : LogicError {
 };
 
 struct UndefinedPrimaryOutputError : LogicError {
-  UndefinedPrimaryOutputError(const std::string& name);
+  explicit UndefinedPrimaryOutputError(const std::string& name);
   const std::string mOutput;
   void describe(std::ostream& os) const override;
 };
 
-} // namespace blifverifier
+}  // namespace blifverifier
 
 #endif
