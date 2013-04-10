@@ -5,10 +5,10 @@ Simple utility that generates C equivalence checkers for two circuits. [Current 
 
 To use:
 
-make
-./blif-verifier circuit1.blif circuit2.blif verifier.c
-cc verifier.c harness.c -lm -o verifier
-./verifier
+    make
+    ./blif-verifier circuit1.blif circuit2.blif verifier.c
+    cc verifier.c harness.c -lm -o verifier
+    ./verifier
 
 This is a simple program to verify that two combinational circuits expressed in
 a restricted subset of the BLIF format are equivalent by simulating all
@@ -31,29 +31,29 @@ verifier WITHOUT compiler optimizations -- the verifier will run much, much
 slower, but the compile will finish much faster as well, and you win on
 balance.
 
-alexr@autumn:~/projects/blif-verifier$ time gcc harness.c a.c -lm  -O3
-real  0m57.275s
-user  0m56.808s
-sys   0m0.260s
-
-alexr@autumn:~/projects/blif-verifier$ time ./a.out
-Circuits are equivalent. 65536 combinations explored.
-real  0m0.030s
-user  0m0.028s
-sys   0m0.000s
-
-alexr@autumn:~/projects/blif-verifier$ time gcc harness.c a.c -lm 
-real  0m17.571s
-user  0m17.005s
-sys   0m0.372s
-
-alexr@autumn:~/projects/blif-verifier$ time ./a.out
-Circuits are equivalent. 65536 combinations explored.
-
-real  0m0.976s
-user  0m0.944s
-sys   0m0.020s
-
+    alexr@autumn:~/projects/blif-verifier$ time gcc harness.c a.c -lm  -O3
+    real  0m57.275s
+    user  0m56.808s
+    sys   0m0.260s
+    
+    alexr@autumn:~/projects/blif-verifier$ time ./a.out
+    Circuits are equivalent. 65536 combinations explored.
+    real  0m0.030s
+    user  0m0.028s
+    sys   0m0.000s
+    
+    alexr@autumn:~/projects/blif-verifier$ time gcc harness.c a.c -lm 
+    real  0m17.571s
+    user  0m17.005s
+    sys   0m0.372s
+    
+    alexr@autumn:~/projects/blif-verifier$ time ./a.out
+    Circuits are equivalent. 65536 combinations explored.
+    
+    real  0m0.976s
+    user  0m0.944s
+    sys   0m0.020s
+    
 A cleaner solution might be to cut out the compiler and just emit machine
 code to create the circuit evaluations, then put the tight loop in the
 program, thus removing the need for a user to perform a compile-run-compile
