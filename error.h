@@ -64,6 +64,13 @@ struct UndefinedPrimaryOutputError : LogicError {
   void describe(std::ostream& os) const override;
 };
 
+struct CircularDependencyError : LogicError {
+  explicit CircularDependencyError(const std::string& name1,
+                                   const std::string& name2);
+  void describe(std::ostream& os) const override;
+  const std::string mName1, mName2;
+};
+
 }  // namespace blifverifier
 
 #endif

@@ -220,16 +220,14 @@ void BLIF::writeEvaluator(std::ostream& output, const string& fxn_name) const {
   for (const auto& gate : mTruthTables) {
     if (ordered.find(gate.first) == ordered.end()) {
       std::stack<int> todo;
+      std::unordered_set<int> visited;
       todo.push(gate.first);
       while (!todo.empty()) {
         int top_name = todo.top();
         todo.pop();
-        // This second check is necessary if the same gate occurs twice in a
-        // given dependency tree. We could either index the stack with a set
-        // to prevent dupes on it or check here. This is better since a
-        // duplicate in the dep tree occasionally will waste less ram than
-        // doubling the storage of the dep stack, and both take the same time.
         if (ordered.find(top_name) == ordered.end()) {
+          // Mark this node as visit started to catch cycles
+          visited.insert(top_name);
           bool ready = true;
           const TruthTable& top = mTruthTables.find(top_name)->second;
           for (const auto& dependency : top.getInputs()) {
@@ -238,7 +236,15 @@ void BLIF::writeEvaluator(std::ostream& output, const string& fxn_name) const {
                 todo.push(top_name);
                 ready = false;
               }
-              todo.push(dependency);
+
+              // If we attempt to visit a node we've already visited, and
+              // it has not been ordered, then there is a cycle.
+              if (visited.find(dependency) == visited.end()) {
+                todo.push(dependency);
+              } else {
+                throw CircularDependencyError(mLiteralsReverse.find(top_name)->second,
+                                              mLiteralsReverse.find(dependency)->second);
+              }
             }
           }
           if (ready) {

@@ -62,14 +62,14 @@ action, but this is difficult to implement in a platform-agnostic way.
 Note that the primary purpose of writing this was to play with all the cool
 new toys in C++11, and so I'm taking the excuse to use them wherever possible.
 
-TODO:
-* Infinite loop on non-combinational circuits (-> error)
+ISSUES:
 * Only supports small subset of BLIF.
   (wontfix; it's sufficient for combinational circuits)
 * BLIF requires that truth tables be unambiguous insofar as input vectors must
   uniquely specify an output. Currently, if an input vector is ambiguous it will
   be treated as 1; I would like this to instead be an error. (-> error)
 * Test/configure build on Windows/Mac
+* Migrate test suite to an actual framework
 
 LEGAL:
 This is a hobby project. It is published in the hope of being useful but I make

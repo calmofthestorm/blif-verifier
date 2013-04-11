@@ -66,4 +66,14 @@ void UndefinedPrimaryOutputError::describe(ostream& os) const  {
   os << "Primary output " << mOutput << " is never defined." << endl;
 }
 
+CircularDependencyError::CircularDependencyError(const string& name1,
+                                                 const string& name2)
+  : mName1(name1), mName2(name2) { }
+
+void CircularDependencyError::describe(ostream& os) const  {
+  os << "Circuit has circular dependency between " << mName1 << " and "
+     << mName2 << "\n(The verifier only supports combinational circuits)"
+     << endl;
+}
+
 }  // namespace blifverifier
