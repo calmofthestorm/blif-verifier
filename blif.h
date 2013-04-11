@@ -43,10 +43,7 @@ class BLIF {
     static std::vector<std::string> readLineAsTokens(std::istream& input);
 
     // Generate a unique name for this user node (to resolve naming conflicts)
-    std::string registerLiteral(const std::string& lit);
-    std::string registerLiteral(const std::string& lit,
-                                      const std::string& arrayName,
-                                      int arrayIndex);
+    int registerLiteral(const std::string& lit);
 
     // Name of the model
     std::string mModel;
@@ -58,15 +55,15 @@ class BLIF {
     std::vector<std::string> mPrimaryOutputs;
 
     // Bimap from user supplied names to the ones we'll use.
-    std::unordered_map<std::string, std::string> mLiterals;
-    std::unordered_map<std::string, std::string> mLiteralsReverse;
+    std::unordered_map<std::string, int> mLiterals;
+    std::unordered_map<int, std::string> mLiteralsReverse;
 
     // Next integer to use for unique generated names.
     int mNextLiteralIndex;
 
     // Map from node names (truth tables) to the truth tables that represent
     // them.
-    std::unordered_map<std::string, TruthTable> mTruthTables;
+    std::unordered_map<int, TruthTable> mTruthTables;
 };
 
 }  // namespace blifverifier

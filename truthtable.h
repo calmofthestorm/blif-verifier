@@ -36,7 +36,8 @@ class TruthTableEntry {
 
     // Represents the entry as a C logic expression.
     void generateCode(std::ostream& out,
-                      const std::vector<std::string>& input_names) const;
+                      const std::vector<int>& input_names,
+                      const std::unordered_map<int, std::string>& nicknames) const;
 
   private:
     std::string mInputs;
@@ -50,25 +51,26 @@ class TruthTable {
 
     TruthTable();  // Default -- primary input
     TruthTable(Tokenizer::LineTokenReader& reader,
-               std::vector<std::string>&& inputs, TTKind kind);
+               std::vector<int>&& inputs, TTKind kind);
 
     // Add an input to the truth table (not valid for inputs)
-    void addInput(const std::string& input);
+    void addInput(int input);
 
     // Add an entry to the truth table
     void addEntry(const TruthTableEntry& entry);
 
-    const std::vector<std::string>& getInputs() const;
+    const std::vector<int>& getInputs() const;
 
     // Represents the entire truth table as a C logic expression.
-    void generateCode(const std::string& name, std::ostream& out) const;
+    void generateCode(int, std::ostream& out,
+                      const std::unordered_map<int, std::string>& nicknames) const;
 
   private:
     // Verifies a truth table line.
     static bool isValidTTEntry(const std::string& line, int num_entries);
 
     // (Translated) names of the inputs to the truth table.
-    std::vector<std::string> mInputs;
+    std::vector<int> mInputs;
 
     // All entries for the circuit that have defined output.
     std::vector<TruthTableEntry> mEntries;

@@ -8,6 +8,7 @@
 #include <sstream>
 #include <stack>
 #include <string>
+#include <unordered_map>
 #include <vector>
 
 #include "tokenizer.h"
@@ -18,6 +19,7 @@ using std::ostream;
 using std::string;
 using std::vector;
 using std::unordered_set;
+using std::unordered_map;
 
 namespace blifverifier {
 
@@ -39,7 +41,7 @@ bool TruthTable::isValidTTEntry(const string& line, int num_entries) {
 }
 
 TruthTable::TruthTable(Tokenizer::LineTokenReader& reader,
-                       vector<string>&& inputs, TTKind kind)
+                       vector<int>&& inputs, TTKind kind)
   : mInputs(inputs), mKind(kind) {
   // Parse the truth table.
   // Keep reading logic lines until we hit something else, and push it back.
@@ -78,30 +80,36 @@ char TruthTableEntry::getOutput() const {
 
 // TODO: if BLIF truthtable contains a contradiction it will be resolved
 //       silently as true. This should raise an error as the file is illegal.
-void TruthTableEntry::generateCode(ostream& out,
-                                   const vector<string>& input_names) const {
+void TruthTableEntry::generateCode(
+    ostream& out,
+    const vector<int>& input_names,
+    const unordered_map<int, string>& nicknames) const {
   out << "(";
   for (decltype(mInputs)::size_type i = 0; i < mInputs.size(); ++i) {
     if (mInputs[i] != TOKENS::NC) {
       if (mInputs[i] == TOKENS::ZERO) {
         out << "~";
       }
-      out << input_names[i] << " & ";
+      // Abort if key not present.
+      out << nicknames.find(input_names[i])->second << " & ";
     }
   }
   out << " -1)";
 }
 
-void TruthTable::generateCode(const string& name, ostream& out) const {
+void TruthTable::generateCode(
+    int name, ostream& out,
+    const unordered_map<int, string>& nicknames) const {
   if (mKind != TruthTable::TTKind::INPUT) {
     if (mKind == TruthTable::TTKind::NORMAL) {
       out << "size_t ";
     }
-    out << name << " = ";
+    // Abort if key not present.
+    out << nicknames.find(name)->second << " = ";
     out << "(";
     for (const auto& entry : mEntries) {
       if (entry.getOutput() == TOKENS::ONE) {
-        entry.generateCode(out, mInputs);
+        entry.generateCode(out, mInputs, nicknames);
         out << " | ";
       }
     }
@@ -109,7 +117,7 @@ void TruthTable::generateCode(const string& name, ostream& out) const {
   }
 }
 
-void TruthTable::addInput(const std::string& input) {
+void TruthTable::addInput(int input) {
   assert(mKind != TTKind::INPUT);
   mInputs.push_back(input);
 }
@@ -119,7 +127,7 @@ void TruthTable::addEntry(const TruthTableEntry& entry) {
   mEntries.push_back(entry);
 }
 
-const vector<string>& TruthTable::getInputs() const {
+const vector<int>& TruthTable::getInputs() const {
   return mInputs;
 }
 

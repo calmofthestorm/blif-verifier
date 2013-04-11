@@ -39,7 +39,7 @@ BLIF::BLIF(istream& input)
   // Need this to handle validation -- outputs are a special case but we don't
   // know it when reading their truth table. Once we're done reading the file
   // we can discard this, however.
-  unordered_set<string> outputs;
+  unordered_set<int> outputs;
 
   Tokenizer::LineTokenReader reader(input);
 
@@ -66,10 +66,9 @@ BLIF::BLIF(istream& input)
         throw DuplicateBlockError(reader.getRawLineNumber(), "inputs");
       }
       read_inputs = true;
-      int index = 0;
       while (tok != tokens.end()) {
         mPrimaryInputs.push_back(*tok);
-        mTruthTables[registerLiteral(*tok, "inputs", index++)] = TruthTable();
+        mTruthTables[registerLiteral(*tok)] = TruthTable();
         ++tok;
       }
     }
@@ -80,10 +79,9 @@ BLIF::BLIF(istream& input)
         throw DuplicateBlockError(reader.getRawLineNumber(), "outputs");
       }
       read_outputs = true;
-      int index = 0;
       while (tok != tokens.end()) {
         mPrimaryOutputs.push_back(*tok);
-        outputs.insert(registerLiteral(*tok, "outputs", index++));
+        outputs.insert(registerLiteral(*tok));
         ++tok;
       }
     }
@@ -100,7 +98,7 @@ BLIF::BLIF(istream& input)
         throw NamesBlockBeforeHeadersError(reader.getRawLineNumber(), "model");
       }
 
-      string name = registerLiteral(*(tokens.end() - 1));
+      int name = registerLiteral(*(tokens.end() - 1));
       if (mTruthTables.find(name) != mTruthTables.end()) {
         throw DuplicateTruthTableError(reader.getRawLineNumber(),
                                        *(tokens.end() - 1));
@@ -110,7 +108,7 @@ BLIF::BLIF(istream& input)
                    TruthTable::TTKind::OUTPUT :
                    TruthTable::TTKind::NORMAL);
 
-      vector<string> literals;
+      vector<int> literals;
       while (tok != tokens.end() - 1) {
         literals.push_back(registerLiteral(*tok++));
       }
@@ -183,22 +181,11 @@ const std::vector<std::string>& BLIF::getPrimaryOutputs() const {
   return mPrimaryOutputs;
 }
 
-string BLIF::registerLiteral(const string& lit, const string& arrayName,
-                             int arrayIndex) {
-  std::ostringstream sstr;
-  sstr << arrayName << "[" << arrayIndex << "]";
-  assert(mLiterals.find(sstr.str()) == mLiterals.end());
-  mLiterals[lit] = sstr.str();
-  mLiteralsReverse[sstr.str()] = lit;
-  return mLiterals[lit];
-}
-
-string BLIF::registerLiteral(const string& lit) {
+int BLIF::registerLiteral(const string& lit) {
   if (mLiterals.find(lit) == mLiterals.end()) {
-    std::ostringstream sstr;
-    sstr << "node" << mNextLiteralIndex++;
-    mLiterals[lit] = sstr.str();
-    mLiterals[sstr.str()] = lit;
+    mLiterals[lit] = mNextLiteralIndex;
+    mLiteralsReverse[mNextLiteralIndex] = lit;
+    ++mNextLiteralIndex;
   }
   return mLiterals[lit];
 }
@@ -207,16 +194,35 @@ void BLIF::writeEvaluator(std::ostream& output, const string& fxn_name) const {
   output << "void " << fxn_name << "(size_t inputs[numInputs],"
          << " size_t outputs[numOutputs]) {\n";
 
+  // Generate node names for each gate
+  std::unordered_map<int, string> nicknames;
+  for (const auto& gate : mLiteralsReverse) {
+    nicknames[gate.first] = "node" + std::to_string(gate.first); // keys only
+  }
+
+  // Special case primary inputs and outputs
+  for (decltype(mPrimaryInputs)::size_type i = 0; i < mPrimaryInputs.size(); ++i) {
+    assert(mLiterals.find(mPrimaryInputs[i]) != mLiterals.end());
+    int key = mLiterals.find(mPrimaryInputs[i])->second;
+    nicknames[key] = "inputs[" + std::to_string(i) + "]";
+  }
+
+  for (decltype(mPrimaryOutputs)::size_type i = 0; i < mPrimaryOutputs.size(); ++i) {
+    assert(mLiterals.find(mPrimaryOutputs[i]) != mLiterals.end());
+    int key = mLiterals.find(mPrimaryOutputs[i])->second;
+    nicknames[key] = "outputs[" + std::to_string(i) + "]";
+  }
+
   // We need to write out the assignments in topologically sorted order to
   // ensure that all dependencies are met. BLIF does not require the circuit
   // be so sorted.
-  std::unordered_set<std::string> ordered;
+  std::unordered_set<int> ordered;
   for (const auto& gate : mTruthTables) {
     if (ordered.find(gate.first) == ordered.end()) {
-      std::stack<string> todo;
+      std::stack<int> todo;
       todo.push(gate.first);
       while (!todo.empty()) {
-        string top_name = todo.top();
+        int top_name = todo.top();
         todo.pop();
         // This second check is necessary if the same gate occurs twice in a
         // given dependency tree. We could either index the stack with a set
@@ -237,7 +243,7 @@ void BLIF::writeEvaluator(std::ostream& output, const string& fxn_name) const {
           }
           if (ready) {
             ordered.insert(top_name);
-            top.generateCode(top_name, output);
+            top.generateCode(top_name, output, nicknames);
           }
         }
       }
