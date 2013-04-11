@@ -19,6 +19,9 @@ debug: ${OBJECTS}
 release: CPPFLAGS += -O3
 release: buildinternal
 
+profile: CPPFLAGS += -O2 -lc -pg
+profile: buildinternal
+
 coverage: CPPFLAGS += --coverage -O0
 coverage: buildinternal
 
